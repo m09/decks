@@ -1,0 +1,21 @@
+.reveal section img {
+    border: 0;
+    background: none;
+    box-shadow: none;
+}
+
+.text-muted {
+    filter: opacity(60%);
+}
+
+.reveal h3 {
+    margin-bottom: 100px;
+}
+
+.reveal h4 {
+    filter: opacity(60%);
+}
+
+.reveal ul {
+    list-style-type: none;
+}

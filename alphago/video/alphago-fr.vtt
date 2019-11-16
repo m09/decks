@@ -1,0 +1,111 @@
+WEBVTT - Sous-titres pour la vidéo de DeepMind sur AlphaGo
+
+1
+00:00:00.001 --> 00:00:06.000
+Les jeux sont une sorte de microcosme du monde extérieur, c'est pour ça que les jeux ont été inventés et pour ça que les humains aiment y jouer.
+
+2
+00:00:06.500 --> 00:00:10.000
+L'histoire des ordinateurs s'essayant aux jeux de plateau est très riche.
+
+3
+00:00:11.000 --> 00:00:19.500
+Cela a commencé avec le backgammon, puis les dames, puis enfin DeepBlue en 1997 qui a battu Kasparov aux échecs.
+
+4
+00:00:19.500 --> 00:00:26.000
+C'était un grand moment de publicité pour les IAs des jeux.
+Depuis, le Graal est le jeu de Go.
+
+5
+00:00:28.000 --> 00:00:35.000
+Aux Échecs, le nombre de possibilité est à peu près 20 à chaque tour.
+Au Go, c'est à peu près 200.
+
+6
+00:00:36.000 --> 00:00:43.000
+Une autre manière de voir la complexité du go est que le nombre de configurations possibles du plateau est plus grand que le nombre d'atomes dans l'Univers.
+
+7
+00:00:44.500 --> 00:00:50.000
+Si vous demandez à un bon joueur de Go pourquoi il a joué un coup précis, des fois il vous répondra juste « ça avait l'air bien ici ».
+
+8
+00:00:50.500 --> 00:00:56.000
+Donc une des manières de voir le Go est comme un jeu intuitif, là où les Échecs sont plus logiques.
+
+9
+00:00:57.000 --> 00:01:01.000
+AlphaGo est notre programme pour essayer de « résoudre » le Go.
+
+10
+00:01:02.500 --> 00:01:07.000
+Nous avons joué avec le Champion Européen Fan Hui un match à 5 parties.
+
+11
+00:01:07.500 --> 00:01:14.000
+Nous avons une estimation de la force du programme, mais bien sûr il est impossible de vraiment savoir avant d'avoir joué contre un humain.
+
+12
+00:01:14.000 --> 00:01:20.000
+Les humains jouent des coups créatifs et intéressants que les programmes ne considèrent pas forcément. Donc il y a toujours une part d'incertitude.
+
+13
+00:01:20.000 --> 00:01:24.500
+Quand on a joué le premier match, j'ai perdu.
+
+14
+00:01:24.500 --> 00:01:26.000
+Très intéressant.
+
+15
+00:01:26.000 --> 00:01:32.000
+Je pense qu'il était un peu choqué après la première partie. Et je pense qu'il ne savait pas si sa préparation était en faute ou si le programme était vraiment fort.
+
+16
+00:01:33.000 --> 00:01:39.000
+Après la première partie, je me dis que peut-être il n'aime pas combattre.
+Qu'il aime jouer lentement.
+
+17
+00:01:39.000 --> 00:01:43.000
+C'est pour ça que pendant la deuxième partie, je combats.
+
+18
+00:01:43.000 --> 00:01:46.000
+Il fait des erreurs des fois. Ça me donne de l'espoir.
+
+19
+00:01:47.000 --> 00:01:53.000
+Je pense que j'ai peut-être raison.
+C'est pour ça que pour une autre partie, je combats tout le temps.
+
+20
+00:01:57.000 --> 00:01:59.000
+Maintenant c'est compliqué, maintenant c'est compliqué.
+
+21
+00:01:59.500 --> 00:02:02.000
+Mais je perds toutes mes parties.
+
+22
+00:02:04.000 --> 00:02:08.500
+AlphaGo a gagné 5-0.
+C'est la première fois qu'un programme a battu un joueur professionnel.
+
+23
+00:02:13.000 --> 00:02:25.000
+Maintenant que nous avons battu le champion d'Europe la prochaine étape est de défier le joueur légendaire Lee Sedol, qui est le Roger Federrer du Go.
+
+24
+00:02:26.000 --> 00:02:32.000
+Il était d'usage de dire que si l'on arrivait à créer un programme capable de battre le meilleur joueur de Go,
+
+25
+00:02:32.000 --> 00:02:38.500
+alors on devait avoir inventé un algorithme général.
+C'est sûrement ce que nous avons accompli.
+
+25
+00:02:38.500 --> 00:02:45.000
+Nous sommes très excités par ces avancées mais cela ne reste qu'un pas vers l'intelligence générale.

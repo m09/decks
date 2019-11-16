@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <title>AlphaGo: Solving the Game of Go with Machine Learning</title>
+
+    <link rel="stylesheet" href="../reveal.js/css/reset.css" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="../reveal.js/css/reveal.css" />
+    <link rel="stylesheet" href="../reveal.js/css/theme/sky.css" />
+    <link rel="stylesheet" href="css/custom.css" />
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="../reveal.js/lib/css/zenburn.css" />
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.type = "text/css";
+      link.href = window.location.search.match(/print-pdf/gi)
+        ? "../reveal.js/css/print/pdf.css"
+        : "../reveal.js/css/print/paper.css";
+      document.getElementsByTagName("head")[0].appendChild(link);
+    </script>
+    <base target="_blank" />
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <h2>
+            <strong>AlphaGo</strong>: Solving <strong>Go</strong> with
+            <strong>Machine Learning</strong>
+          </h2>
+          <div class="text-muted">
+            For the
+            <strong class="text-primary">
+              IUT International Days
+            </strong>
+            <br />
+            By
+            <strong class="text-primary">
+              Hugo Mougard
+            </strong>
+            <br />
+            On
+            <strong class="text-primary">
+              March, 3
+            </strong>
+          </div>
+        </section>
+        <section>
+          <p>
+            DeepMind published a paper in Nature on the 27th of January to
+            introduce <strong>AlphaGo</strong>.
+          </p>
+          <p>
+            AlphaGo is the first AI to ever beat a
+            <strong>human Go pro</strong> without free moves.
+          </p>
+        </section>
+        <section>
+          <section>
+            <h1>Overview</h1>
+            <ul style="list-style: none;">
+              <li class="fragment highlight-red">
+                The Game of Go
+              </li>
+              <li>Previous Go AIs</li>
+              <li>Convolutional Neural Networks</li>
+              <li>AlphaGo</li>
+              <li>Conclusion</li>
+            </ul>
+          </section>
+          <section>
+            <h4>The Game of Go</h4>
+            <h2>A Simple Ruleset</h2>
+            <p>There are 2 important rules:</p>
+            <ul>
+              <li>stones surrounded by enemy stones are captured</li>
+              <li>
+                empty intersections surrounded by your stones are your territory
+              </li>
+            </ul>
+          </section>
+          <section>
+            <h4>The Game of Go</h4>
+            <h2>Capture</h2>
+            <img src="img/capture.png" height="400" />
+          </section>
+          <section>
+            <h4>The Game of Go</h4>
+            <h2>Territory</h2>
+            <img src="img/territory.png" height="400" />
+          </section>
+          <section>
+            <h4>The Game of Go</h4>
+            <h2>A Complex Game</h2>
+            <p>
+              Despite its very simple rules, Go is <strong>very</strong> hard to
+              master:
+            </p>
+            <ul>
+              <li>Average number of possible moves at each turn: 200</li>
+              <li>Average number of moves in a game: 300</li>
+              <li>
+                Number of legal positions: estimated number of atoms in the
+                observable universe <strong>squared</strong>
+              </li>
+            </ul>
+          </section>
+        </section>
+        <section>
+          <section data-background="yellow">
+            <h1>Overview</h1>
+            <ul style="list-style: none;">
+              <li>The Game of Go</li>
+              <li class="fragment highlight-red">Previous Go AIs</li>
+              <li>Convolutional Neural Networks</li>
+              <li>AlphaGo</li>
+              <li>Conclusion</li>
+            </ul>
+          </section>
+          <section>
+            <h4>Previous Go AIs</h4>
+            <h2>Prerequisite: Game Tree</h2>
+            <img src="img/game-tree.png" height="400" />
+          </section>
+          <section>
+            <h4>Previous Go AIs</h4>
+            <h2>Objective of a game AI</h2>
+            <p>Explore the game tree efficiently to find the best move.</p>
+          </section>
+          <section>
+            <h4>Previous Go AIs</h4>
+            <h2>Min-Max</h2>
+            <img src="img/minmax.jpg" height="400" />
+          </section>
+          <section>
+            <h4>Previous Go AIs</h4>
+            <h2>Min-Max applicable to Go?</h2>
+            <ul>
+              <li>Average number of possible moves at each turn: 200</li>
+              <li>Average number of moves in a game: 300</li>
+            </ul>
+            <br />
+            <br />
+            <p>→ 200<sup>300</sup> moves to explore</p>
+          </section>
+          <section>
+            <h4>Previous Go AIs</h4>
+            <h2>Monte Carlo Tree Search</h2>
+            <p>Min-Max approximation.</p>
+            <img src="img/mcts.png" />
+          </section>
+        </section>
+        <section>
+          <section data-background="pink">
+            <h1 style="color: white;">Overview</h1>
+            <ul style="list-style: none;">
+              <li>The Game of Go</li>
+              <li>Previous Go AIs</li>
+              <li class="fragment highlight-red">
+                Convolutional Neural Networks
+              </li>
+              <li>AlphaGo</li>
+              <li>Conclusion</li>
+            </ul>
+          </section>
+          <section>
+            <h4>Convolutional Neural Networks</h4>
+            <h2>Introduction</h2>
+            <p>
+              Approximators of very complex functions, usually “intuitive” ones.
+            </p>
+          </section>
+          <section>
+            <h4>Convolutional Neural Networks</h4>
+            <h2>Application</h2>
+            <p>Mainly image and text understanding.</p>
+            <img src="img/computer-vision.png" height="300" />
+          </section>
+          <section>
+            <h4>Convolutional Neural Networks</h4>
+            <h2>Architecture</h2>
+            <p>Multiple layers of filters combined together.</p>
+            <img src="img/cnn.png" />
+          </section>
+          <section>
+            <h4>Convolutional Neural Networks</h4>
+            <h2>Filters</h2>
+            <img src="img/kernel.jpg" height="300" />
+          </section>
+          <section>
+            <h4>Convolutional Neural Networks</h4>
+            <h2>Learned Filters</h2>
+            <img src="img/filters.png" height="300" />
+          </section>
+          <section>
+            <h4>Convolutional Neural Networks</h4>
+            <h2>Application</h2>
+            <img src="img/imagenet.png" height="400" />
+          </section>
+          <section>
+            <h4>Convolutional Neural Networks</h4>
+            <h2>Relation to go</h2>
+            <p>Instead of working on pixels, work on intersections.</p>
+            <img src="img/goban.jpg" height="400" />
+          </section>
+        </section>
+        <section>
+          <section data-background="green" style="color:white;">
+            <h1>Overview</h1>
+            <ul style="list-style: none;">
+              <li>The Game of Go</li>
+              <li>Previous Go AIs</li>
+              <li>Convolutional Neural Networks</li>
+              <li class="fragment highlight-red">AlphaGo</li>
+              <li>Conclusion</li>
+            </ul>
+          </section>
+          <section>
+            <h4>AlphaGo</h4>
+            <h2>Intro by DeepMind</h2>
+            <video src="video/alphago.mp4" controls></video>
+          </section>
+          <section>
+            <h4>AlphaGo</h4>
+            <h2>Core of the approach</h2>
+            <p>
+              Augment Monte Carlo Tree Search with two Convolutional Neural
+              Networks.
+            </p>
+            <img src="img/networks.jpg" height="400" />
+          </section>
+          <section>
+            <h4>AlphaGo</h4>
+            <h2>Policy Network</h2>
+            <p>Predict the next move given the position.</p>
+            <img src="img/policy-network.png" height="400" />
+          </section>
+          <section>
+            <h4>AlphaGo</h4>
+            <h2>Value Network</h2>
+            <p>Predict the winner given the position.</p>
+            <img src="img/value-network.png" height="400" />
+          </section>
+          <section>
+            <h4>AlphaGo</h4>
+            <h2>Integration in MCTS</h2>
+            <img src="img/mcts-example.png" height="500" />
+          </section>
+          <section>
+            <h4>AlphaGo</h4>
+            <h2>Supervised Learning</h2>
+            <ul>
+              <li>29M positions from 160k KGS games</li>
+              <li>8M positions from Tygem games</li>
+            </ul>
+          </section>
+          <section>
+            <h4>AlphaGo</h4>
+            <h2>Reinforcement Learning</h2>
+            <ul>
+              <li>
+                Make the policy network play against its previous versions to
+                create new data to learn from
+              </li>
+              <li>
+                Use the new policy network to create 30M positions to learn the
+                value network
+              </li>
+            </ul>
+          </section>
+          <section>
+            <h4>AlphaGo</h4>
+            <h2>Hardware</h2>
+            <p>Google scale:</p>
+            <ul>
+              <li>1202 CPUs</li>
+              <li>176 GPUs</li>
+              <li>40 search threads</li>
+            </ul>
+          </section>
+          <section>
+            <h4>AlphaGo</h4>
+            <h2>Performance</h2>
+            <p>Beat Fan Hui, the European Go Champion 5-0.</p>
+            <img src="img/rankings.png" height="400" />
+          </section>
+          <section>
+            <h4>AlphaGo</h4>
+            <h2>Final Boss</h2>
+            <p>
+              Google challenged Lee Sedol, the best player of the last 10 years.
+              Starting in <strong>6 days!</strong>
+            </p>
+            <img src="img/sedol.jpg" height="400" />
+            <p><strong>1,000,000$ prize!</strong></p>
+          </section>
+        </section>
+        <section>
+          <section data-background="blue">
+            <h1 style="color:white;">Overview</h1>
+            <ul style="list-style: none; color: white;">
+              <li>The Game of Go</li>
+              <li>Previous Go AIs</li>
+              <li>Convolutional Neural Networks</li>
+              <li>AlphaGo</li>
+              <li class="fragment highlight-blue">Conclusion</li>
+            </ul>
+          </section>
+          <section>
+            <h3>Conclusion</h3>
+            <ul>
+              <li>Yet another milestone reached for AI</li>
+              <li>Very general techniques, applicable to many tasks</li>
+            </ul>
+          </section>
+        </section>
+        <section data-background="black">
+          <h2>
+            <span style="color: white;">Thank</span>
+            <span style="color: gold;">you</span>
+            <span style="color: pink;">very</span>
+            <span style="color: red;">much</span>
+            <span style="color: yellow;">for</span>
+            <span style="color: green;">your</span>
+            <span style="color: orange;">attention</span>
+            <br /><span class="text-primary">😍</span>
+          </h2>
+        </section>
+        <section>
+          <section data-state="cobalt">
+            <h1>Do you have any question?</h1>
+          </section>
+        </section>
+      </div>
+    </div>
+
+    <script src="../reveal.js/js/reveal.js"></script>
+
+    <script>
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: "slide"
+      });
+    </script>
+  </body>
+</html>

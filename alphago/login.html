@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <title>AlphaGo: Solving the Game of Go with Machine Learning</title>
+
+    <link rel="stylesheet" href="../reveal.js/css/reset.css" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="../reveal.js/css/reveal.css" />
+    <link rel="stylesheet" href="../reveal.js/css/theme/sky.css" />
+    <link rel="stylesheet" href="css/custom.css" />
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="../reveal.js/lib/css/zenburn.css" />
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.type = "text/css";
+      link.href = window.location.search.match(/print-pdf/gi)
+        ? "../reveal.js/css/print/pdf.css"
+        : "../reveal.js/css/print/paper.css";
+      document.getElementsByTagName("head")[0].appendChild(link);
+    </script>
+    <base target="_blank" />
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <h2>
+            <strong>AlphaGo</strong>: Solving <strong>Go</strong> with
+            <strong>Machine Learning</strong>
+          </h2>
+          <div class="text-muted">
+            For
+            <strong class="text-primary">
+              LOGIN DHDs'16
+            </strong>
+            <br />
+            On
+            <strong class="text-primary">
+              March, 29
+            </strong>
+            <br />
+            By
+            <strong class="text-primary">
+              Hugo Mougard
+            </strong>
+          </div>
+        </section>
+        <section>
+          <p>
+            DeepMind's Nature paper about <strong>AlphaGo</strong> introduced
+            the first AI to ever beat a <strong>human pro</strong> at
+            <strong>Go</strong> without free moves.
+          </p>
+        </section>
+        <section>
+          <section>
+            <h1>Overview</h1>
+            <ul style="list-style: none;">
+              <li class="fragment highlight-red">
+                The Game of Go
+              </li>
+              <li>Previous Go AIs</li>
+              <li>Convolutional Neural Networks</li>
+              <li>AlphaGo</li>
+              <li>Conclusion</li>
+            </ul>
+          </section>
+          <section>
+            <h4>The Game of Go</h4>
+            <h2>A Simple Ruleset</h2>
+            <p>There are 2 important rules:</p>
+            <ul>
+              <li>stones surrounded by enemy stones are captured</li>
+              <li>
+                empty intersections surrounded by your stones are your territory
+              </li>
+            </ul>
+          </section>
+          <section>
+            <h4>The Game of Go</h4>
+            <h2>Capture</h2>
+            <img src="img/capture.png" height="400" />
+          </section>
+          <section>
+            <h4>The Game of Go</h4>
+            <h2>Territory</h2>
+            <img src="img/territory.png" height="400" />
+          </section>
+          <section>
+            <h4>The Game of Go</h4>
+            <h2>A Complex Game</h2>
+            <p>
+              Despite its very simple rules, Go is <strong>very</strong> hard to
+              master:
+            </p>
+            <ul>
+              <li>Average number of possible moves at each turn: 200</li>
+              <li>Average number of moves in a game: 300</li>
+              <li>
+                Number of legal positions: estimated number of atoms in the
+                observable universe <strong>squared</strong>
+              </li>
+            </ul>
+          </section>
+        </section>
+        <section>
+          <section data-background="yellow">
+            <h1>Overview</h1>
+            <ul style="list-style: none;">
+              <li>The Game of Go</li>
+              <li class="fragment highlight-red">Previous Go AIs</li>
+              <li>Convolutional Neural Networks</li>
+              <li>AlphaGo</li>
+              <li>Conclusion</li>
+            </ul>
+          </section>
+          <section>
+            <h4>Previous Go AIs</h4>
+            <h2>Prerequisite: Game Tree</h2>
+            <img src="img/game-tree.png" height="400" />
+          </section>
+          <section>
+            <h4>Previous Go AIs</h4>
+            <h2>Objective of a game AI</h2>
+            <p>Explore the game tree efficiently to find the best move.</p>
+          </section>
+          <section>
+            <h4>Previous Go AIs</h4>
+            <h2>Min-Max</h2>
+            <p>Maximize your minimum score:</p>
+            <img src="img/minmax.jpg" height="400" />
+          </section>
+          <section>
+            <h4>Previous Go AIs</h4>
+            <h2>Min-Max applicable to Go?</h2>
+            <ul>
+              <li>Average number of possible moves at each turn: 200</li>
+              <li>Average number of moves in a game: 300</li>
+            </ul>
+            <br />
+            <br />
+            <p>→ 200<sup>300</sup> moves to explore</p>
+          </section>
+          <section>
+            <h4>Previous Go AIs</h4>
+            <h2>Monte Carlo Tree Search</h2>
+            <p>Converges to Min-Max in the limit.</p>
+            <img src="img/mcts.png" />
+          </section>
+        </section>
+        <section>
+          <section data-background="pink">
+            <h1 style="color: white;">Overview</h1>
+            <ul style="list-style: none;">
+              <li>The Game of Go</li>
+              <li>Previous Go AIs</li>
+              <li class="fragment highlight-red">
+                Convolutional Neural Networks
+              </li>
+              <li>AlphaGo</li>
+              <li>Conclusion</li>
+            </ul>
+          </section>
+          <section>
+            <h4>Convolutional Neural Networks</h4>
+            <h2>A taste of what's coming</h2>
+            <p>Models capable of image and text understanding:</p>
+            <img src="img/computer-vision.png" height="300" />
+          </section>
+          <section>
+            <h4>Convolutional Neural Networks</h4>
+            <h2>Introduction</h2>
+            <p>
+              Approximators of very complex functions, usually hard for
+              computers, “intuitive” ones.
+            </p>
+            <p>
+              Following section heavily based on
+              <a href="http://cs231n.github.io/">Stanford cs231n course</a>
+            </p>
+          </section>
+          <section>
+            <h4>Convolutional Neural Networks</h4>
+            <h2>Building block:<br />the Neuron</h2>
+            <p>Inspired by biological neurons:</p>
+            <img src="img/neuron.png" height="200" /><img
+              src="img/neuron_model.jpeg"
+              height="200"
+            />
+          </section>
+          <section>
+            <h4>Convolutional Neural Networks</h4>
+            <h2>An Activation Function</h2>
+            <img src="img/activation.jpeg" />
+          </section>
+          <section>
+            <h4>Convolutional Neural Networks</h4>
+            <h2>“Simple” Neural Nets</h2>
+            <img src="img/neural-net.jpeg" height="400" />
+          </section>
+          <section>
+            <h4>Convolutional Neural Networks</h4>
+            <h2>Representational power</h2>
+            <img src="img/representation.jpeg" />
+          </section>
+          <section>
+            <h4>Convolutional Neural Networks</h4>
+            <h2>Training 1/2: Principle</h2>
+            <p>
+              Solve an optimization problem: minimize a loss w.r.t. training
+              data based on the weights of the neurons:
+            </p>
+            <img src="img/loss.jpg" height="300" />
+          </section>
+          <section>
+            <h4>Convolutional Neural Networks</h4>
+            <h2>Training 2/2: Gradient Descent</h2>
+            <p>Follow the derivative to find a local minimum of the loss:</p>
+            <img src="img/gradient-descent.jpeg" height="300" />
+          </section>
+          <section>
+            <h4>Convolutional Neural Networks</h4>
+            <h2>Conv Nets: Idea</h2>
+            <p>
+              Neurons depending on
+              <strong>small areas of the input</strong> (also called
+              <strong>filters</strong>). Allows a hierarchical representation.
+            </p>
+          </section>
+          <section>
+            <h4>Convolutional Neural Networks</h4>
+            <h2>Architecture</h2>
+            <p>Multiple layers of filters combined together.</p>
+            <img src="img/cnn.jpeg" />
+          </section>
+          <section>
+            <h4>Convolutional Neural Networks</h4>
+            <h2>Filters</h2>
+            <img src="img/kernel.jpg" height="300" />
+          </section>
+          <section>
+            <iframe
+              src="misc/demo.html"
+              style="border:
+                                                solid black 1px;
+                                                height: 700px; width: 100%;"
+            ></iframe>
+          </section>
+          <section>
+            <h4>Convolutional Neural Networks</h4>
+            <h2>Learned Filters</h2>
+            <img src="img/filters.png" height="300" />
+          </section>
+          <section>
+            <h4>Convolutional Neural Networks</h4>
+            <h2>Application</h2>
+            <img src="img/imagenet.png" height="400" />
+          </section>
+          <section>
+            <h4>Convolutional Neural Networks</h4>
+            <h2>Relation to go</h2>
+            <p>Instead of working on pixels, work on intersections.</p>
+            <img src="img/goban.jpg" height="400" />
+          </section>
+        </section>
+        <section>
+          <section data-background="green" style="color:white;">
+            <h1>Overview</h1>
+            <ul style="list-style: none;">
+              <li>The Game of Go</li>
+              <li>Previous Go AIs</li>
+              <li>Convolutional Neural Networks</li>
+              <li class="fragment highlight-red">AlphaGo</li>
+              <li>Conclusion</li>
+            </ul>
+          </section>
+          <section>
+            <h4>AlphaGo</h4>
+            <h2>Intro by DeepMind</h2>
+            <video src="video/alphago.mp4" controls></video>
+          </section>
+          <section>
+            <h4>AlphaGo</h4>
+            <h2>Core of the approach</h2>
+            <p>
+              Augment Monte Carlo Tree Search with two Convolutional Neural
+              Networks.
+            </p>
+            <img src="img/networks.jpg" height="400" />
+          </section>
+          <section>
+            <h4>AlphaGo</h4>
+            <h2>Policy Network</h2>
+            <p>Predict the next move given the position.</p>
+            <img src="img/policy-network.png" height="400" />
+          </section>
+          <section>
+            <h4>AlphaGo</h4>
+            <h2>Value Network</h2>
+            <p>Predict the winner given the position.</p>
+            <img src="img/value-network.png" height="400" />
+          </section>
+          <section>
+            <h4>AlphaGo</h4>
+            <h2>Integration in MCTS</h2>
+            <img src="img/mcts-alphago.png" height="400" />
+          </section>
+          <section>
+            <h4>AlphaGo</h4>
+            <h2>MCTS example</h2>
+            <img src="img/mcts-example.png" height="500" />
+          </section>
+          <section>
+            <h4>AlphaGo</h4>
+            <h2>Supervised Learning</h2>
+            <img src="img/supervised-vs-unsupervised.png" />
+          </section>
+          <section>
+            <h4>AlphaGo</h4>
+            <h2>Supervised Learning</h2>
+            <ul>
+              <li>29M positions from 160k KGS games</li>
+              <li>8M positions from Tygem games</li>
+            </ul>
+          </section>
+          <section>
+            <h4>AlphaGo</h4>
+            <h2>Reinforcement Learning</h2>
+            <img src="img/rl.jpg" />
+          </section>
+          <section>
+            <h4>AlphaGo</h4>
+            <h2>Reinforcement Learning</h2>
+            <ul>
+              <li>
+                Make the policy network play against its previous versions and
+                learn from the result of the game
+              </li>
+              <li>
+                Use the new policy network to create 30M positions to learn the
+                value network
+              </li>
+            </ul>
+          </section>
+          <section>
+            <h4>AlphaGo</h4>
+            <h2>Hardware</h2>
+            <p>Google scale:</p>
+            <ul>
+              <li>1900+ CPUs</li>
+              <li>280+ GPUs</li>
+              <li>40+ search threads</li>
+            </ul>
+          </section>
+          <section>
+            <h4>AlphaGo</h4>
+            <h2>Performance</h2>
+            <ul>
+              <li>v13 beat Fan Hui 5-0.</li>
+              <li>v18 beat Lee Sedol 4-1.</li>
+            </ul>
+            <img src="img/new-rankings.jpg" height="400" />
+          </section>
+          <section>
+            <h4>AlphaGo</h4>
+            <h2>Impact on Go Community</h2>
+            <p>
+              AlphaGo already changed Go forever: new theory, new mentality, in
+              <strong>only 5 games</strong>. Much more to come!
+            </p>
+          </section>
+          <section>
+            <h4>AlphaGo</h4>
+            <h2>General Impact</h2>
+            <p>
+              Alphago uses a generic learning framework → Applicable (with
+              some/lots of efforts) to most other domains.
+            </p>
+          </section>
+          <section>
+            <h4>AlphaGo</h4>
+            <h2>Our new AI Overlord?</h2>
+            <p>
+              Despite what the press says, AlphaGo is <strong>not</strong> a
+              general AI. No reason to worry (yet)!
+            </p>
+            <img src="img/die.jpg" height="400" />
+          </section>
+        </section>
+        <section>
+          <section data-background="blue">
+            <h1 style="color:white;">Overview</h1>
+            <ul style="list-style: none; color: white;">
+              <li>The Game of Go</li>
+              <li>Previous Go AIs</li>
+              <li>Convolutional Neural Networks</li>
+              <li>AlphaGo</li>
+              <li class="fragment highlight-blue">Conclusion</li>
+            </ul>
+          </section>
+          <section>
+            <h3>Conclusion</h3>
+            <ul>
+              <li>Yet another milestone reached for AI</li>
+              <li>Very general techniques, applicable to many tasks</li>
+            </ul>
+          </section>
+        </section>
+        <section data-background="black">
+          <h2>
+            <span style="color: white;">Thank</span>
+            <span style="color: gold;">you</span>
+            <span style="color: pink;">very</span>
+            <span style="color: red;">much</span>
+            <span style="color: yellow;">for</span>
+            <span style="color: green;">your</span>
+            <span style="color: orange;">attention</span>
+            <br /><span class="text-primary">😍</span>
+          </h2>
+        </section>
+        <section>
+          <section data-state="cobalt">
+            <h1>Do you have any question?</h1>
+          </section>
+        </section>
+      </div>
+    </div>
+
+    <script src="../reveal.js/js/reveal.js"></script>
+
+    <script>
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: "slide"
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <title>
+      Bootstrapping Machine Learning on Code with ideas from Natural Language
+      Processing
+    </title>
+
+    <link rel="stylesheet" href="../reveal.js/css/reset.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="../reveal.js/css/reveal.css" />
+    <link rel="stylesheet" href="../reveal.js/css/theme/league.css" />
+    <link rel="stylesheet" href="css/custom.css" />
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="../reveal.js/lib/css/zenburn.css" />
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.type = "text/css";
+      link.href = window.location.search.match(/print-pdf/gi)
+        ? "../reveal.js/css/print/pdf.css"
+        : "../reveal.js/css/print/paper.css";
+      document.getElementsByTagName("head")[0].appendChild(link);
+    </script>
+    <base target="_blank" />
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <h2>
+            Bootstrapping<br /><span class="text-success"
+              >Machine Learning on Code</span
+            ><br />with ideas from<br /><span class="text-success"
+              >Natural Language Processing</span
+            ><br /><span class="text-danger">or How to choose your hammer</span>
+          </h2>
+          <ul style="list-style-type: none;">
+            <li>
+              <span class="text-muted">On the</span> 18th of November, 2018
+            </li>
+            <li><span class="text-muted">At the</span> GOTO CPH meetup</li>
+            <li>
+              <span class="text-muted">By</span> Hugo Mougard
+              <span class="text-muted">from</span> <a href="">source{d}</a>
+            </li>
+          </ul>
+        </section>
+        <section>
+          <h2>Who am I?</h2>
+          <ul>
+            <li>
+              Hugo Mougard &lt;<a href="mailto:hugo@sourced.tech"
+                >hugo@sourced.tech</a
+              >>
+            </li>
+            <li>
+              Machine Learning Engineer at
+              <a href="https://sourced.tech" target="_blank" class="stretch"
+                >source{d}</a
+              >
+            </li>
+            <li>Background = NLP & ML</li>
+            <li>Co-chair of the Nantes ML meetup</li>
+          </ul>
+        </section>
+        <section>
+          <h2>source{d}</h2>
+          <img src="img/sourced.svg" />
+        </section>
+        <section>
+          <h2>What's Machine Learning?</h2>
+          <p>Implicit programming:</p>
+          <ul>
+            <li>Show, don't tell</li>
+            <li>General algorithm, specific data</li>
+          </ul>
+          <p>
+            <a href="https://teachablemachine.withgoogle.com/" target="_blank"
+              >Demo</a
+            >
+          </p>
+        </section>
+        <section
+          data-background-image="img/ring.png"
+          data-background-opacity="0.2"
+        >
+          <h2>Goal</h2>
+          <p>One algorithm to learn them all</p>
+        </section>
+        <section
+          data-background-image="img/sad-owl.jpg"
+          data-background-opacity="0.2"
+        >
+          <h2>Status</h2>
+          <p>Not there yet</p>
+        </section>
+        <section data-background-image="img/no-free-lunch.jpg"></section>
+        <section
+          data-background-image="img/cheat.jpg"
+          data-background-opacity="0.2"
+        >
+          <h2>Meanwhile</h2>
+          Inductive biases
+        </section>
+        <section
+          data-background-image="img/robot-classroom.jpg"
+          data-background-opacity="0.2"
+        >
+          <h2>Inductive bias</h2>
+          <p>Tweak of the general algo</p>
+          <p>→ helps to learn some problems</p>
+        </section>
+        <section>
+          <h2>No bias</h2>
+          <p>
+            <a
+              href="https://www.youtube.com/watch?v=aircAruvnKk&feature=youtu.be&t=135"
+              target="_blank"
+              >Video</a
+            >
+          </p>
+        </section>
+        <section>
+          <h2>Images</h2>
+          <p>Locality is key</p>
+          <img class="stretch" src="img/kernel.jpeg" />
+          <p>
+            <a href="http://scs.ryerson.ca/~aharley/vis/conv/" target="_blank"
+              >Demo</a
+            >
+          </p>
+        </section>
+        <section>
+          <h2>Text</h2>
+          <p>Need to handle sequences…</p>
+          <img src="img/rnn.png" class="stretch" />
+          <p>
+            <a
+              href="https://karpathy.github.io/2015/05/21/rnn-effectiveness/"
+              target="_blank"
+              >Demo</a
+            >
+          </p>
+        </section>
+        <section>
+          <h2>Text</h2>
+          <p>… of variable lengths</p>
+          <img src="img/seq2seq.png" class="stretch" />
+        </section>
+        <section>
+          <h2>Text</h2>
+          <p>Large vocabularies. To handle them:</p>
+          <blockquote>You shall know a word by the company it keeps</blockquote>
+          <p>
+            <a href="https://projector.tensorflow.org/" target="_blank">Demo</a>
+          </p>
+        </section>
+        <section>
+          <h2>Reasonning</h2>
+          <p>
+            <a
+              href="https://distill.pub/2016/augmented-rnns/#rnn-memory"
+              target="_blank"
+              >Memory</a
+            >
+            and
+            <a
+              href="https://distill.pub/2016/augmented-rnns/#attentional-ex2"
+              target="_blank"
+              >pointers</a
+            >
+          </p>
+        </section>
+        <section
+          data-background-image="img/far-west.jpg"
+          data-background-opacity="0.2"
+        >
+          <h2>Machine Learning on Code</h2>
+          <p>(Somewhat) new field of ML</p>
+          <p>→ Everything needs to be built/discovered</p>
+        </section>
+        <section
+          data-background-image="img/mloncode.png"
+          data-background-opacity="0.2"
+        >
+          <h2>What's Machine Learning on Code?</h2>
+          <p>Machine Learning applied to anything code-related:</p>
+          <ul>
+            <li>Bug detection</li>
+            <li>Auto-completion</li>
+            <li>Type inference</li>
+            <li>Duplicates detection</li>
+            <li>Code labelling</li>
+            <li>…</li>
+          </ul>
+        </section>
+        <section
+          data-background-image="img/increase.jpg"
+          data-background-opacity="0.2"
+        >
+          <h2>Why is it gaining steam?</h2>
+          <ul>
+            <li>Lots of data</li>
+            <li>Algorithms are getting powerful enough</li>
+            <li>Impact is huge</li>
+          </ul>
+          <p>Consequence: ↗ in Research & products</p>
+        </section>
+        <section
+          data-background-image="img/toolbox.jpg"
+          data-background-opacity="0.2"
+        >
+          <h2>Inductive bias for MLonCode</h2>
+
+          <p>Which tool will be efficient?</p>
+        </section>
+        <section
+          data-background-image="img/brain.gif"
+          data-background-opacity="0.2"
+        >
+          <h2>Bimodality</h2>
+          <p>Code = two separate channels:</p>
+          <dl>
+            <dt>Algorithmic channel</dt>
+            <dd>Computers, humans</dd>
+            <dt>Descriptive channel</dt>
+            <dd>Humans</dd>
+          </dl>
+        </section>
+        <section
+          data-background-image="img/algo.jpg"
+          data-background-opacity="0.2"
+        >
+          <h2>Algorithmic channel</h2>
+          <img src="img/ast.png" class="stretch" />
+          <p>
+            → Close to parsing.
+            <a
+              href="https://nlp.stanford.edu/blog/hybrid-tree-sequence-neural-networks-with-spinn/"
+              target="_blank"
+              >Demo 1</a
+            >, <a href="https://code2vec.org/" target="_blank">Demo 2</a>.
+          </p>
+        </section>
+        <section
+          data-background-image="img/book.jpeg"
+          data-background-opacity="0.2"
+        >
+          <h2>Descriptive channel</h2>
+          <p>Very similar to natural language</p>
+          <ul>
+            <li>To be understood</li>
+            <li>Mostly English</li>
+          </ul>
+          <p>
+            <a href="https://blog.sourced.tech/post/id2vec/#results">Demo</a>
+          </p>
+        </section>
+        <section
+          data-background-image="img/translation.jpg"
+          data-background-opacity="0.2"
+        >
+          <h2>Case study</h2>
+          <p>Let's apply the inductive bias of Machine Translation to code</p>
+        </section>
+        <section
+          data-background-image="img/future.jpg"
+          data-background-opacity="0.2"
+        >
+          <h2>Mutual enrichment</h2>
+          <p>Reasonning in NLP, databases, …</p>
+        </section>
+        <section>
+          <h2>New inductive biases</h2>
+          <a href="https://code2vec.org/">code2vec</a>
+        </section>
+        <section>
+          <h2>Conclusion</h2>
+        </section>
+        <section data-background-color="yellow">
+          <h1>Thank you for your attention!</h1>
+        </section>
+        <section data-background-color="orange">
+          <h1>¿Questions?</h1>
+        </section>
+        <section data-background-color="purple">
+          <h1>Keep in touch!</h1>
+          <a href="hugo@sourced.tech">hugo@sourced.tech</a>
+        </section>
+      </div>
+    </div>
+
+    <script src="../reveal.js/js/reveal.js"></script>
+
+    <script>
+      Reveal.initialize({
+        controls: false,
+        slideNumber: true,
+        history: true,
+        dependencies: [
+          { src: "../reveal.js/plugin/markdown/marked.js" },
+          { src: "../reveal.js/plugin/markdown/markdown.js" },
+          { src: "../reveal.js/plugin/highlight/highlight.js", async: true }
+        ]
+      });
+    </script>
+  </body>
+</html>

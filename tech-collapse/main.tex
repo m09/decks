@@ -1,0 +1,458 @@
+\documentclass[10pt]{beamer}
+
+\usetheme[progressbar=frametitle]{metropolis}
+
+\setbeamercolor{palette primary}{bg=white}
+
+\metroset{%
+  block=fill,%
+  background=dark,%
+  titleformat title=smallcaps,%
+  titleformat subtitle=smallcaps,%
+  titleformat section=smallcaps,%
+  titleformat frame=smallcaps%
+}
+
+\usepackage{booktabs}
+\usepackage{gensymb}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{tikzsymbols}
+\usepackage[numbers]{natbib}
+\usepackage[english]{babel}
+
+\DeclareGraphicsExtensions{.pdf,.png,.jpg,.jpeg}
+\graphicspath{{./img/}}
+
+\hypersetup{%
+  colorlinks=true,%
+  linkcolor=white,%
+  urlcolor=cyan%
+}
+
+\newcommand{\imgtw}[2][1]{%
+  \begin{figure}%
+    \centering%
+    \includegraphics[width=#1\textwidth]{#2}%
+  \end{figure}%
+}
+\newcommand{\imgth}[2][1]{%
+  \begin{figure}%
+    \centering%
+    \includegraphics[height=#1\textheight]{#2}%
+  \end{figure}%
+}
+\newcommand{\imgcmw}[2]{
+  \begin{figure}%
+    \centering%
+    \includegraphics[width=#1cm]{#2}%
+  \end{figure}%
+}
+\newcommand{\imgcmh}[2]{
+  \begin{figure}%
+    \centering%
+    \includegraphics[height=#1cm]{#2}%
+  \end{figure}%
+}
+\newcommand{\img}[1]{
+  \begin{figure}%
+    \centering%
+    \includegraphics{#1}%
+  \end{figure}%
+}
+
+\title{Tech \& Environmental Collapse}
+\subtitle{}
+\date{March 7, 2019}
+\author{\textsc{Hugo Mougard}}
+
+\begin{document}
+
+\newcommand{\CO}{$\text{CO}_{\text{2}}$}
+
+\maketitle
+
+\begin{frame}{French labels everywhere}
+  Sorry!
+
+  I'll translate the necessary parts though :)
+\end{frame}
+
+\begin{frame}{Talk plan}
+  \tableofcontents
+\end{frame}
+
+\begin{frame}{Slides \& references}
+  \url{https://github.com/m09/talk-tech-collapse}
+\end{frame}
+
+\section{Introduction}
+\label{sec:introduction}
+
+\begin{frame}
+  \frametitle{Goal}
+
+  \begin{itemize}
+  \item Broad overview of environmental collapse \& technology issues
+  \item Spike your interest
+  \end{itemize}
+
+  We'll go fast :)
+\end{frame}
+
+\begin{frame}
+  \frametitle{Environmental collapse}
+
+  \begin{itemize}[<+->]
+  \item Described for 60+ years
+  \item Already well underway (\textit{e.g.} droughts in Syria,
+    insects disparition, …)
+  \item Worst part getting closer (children, grandchildren)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Characterization of the environmental collapse}
+
+  \begin{itemize}[<+->]
+  \item Global warming
+  \item Drop in biodiversity
+  \item Drop in drinkable water reserves
+  \item Drop in arable land
+  \item Resource scarcity
+  \item But also: social instabilities
+  \item …
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Tonight: focus on climate change}
+
+  \imgtw{carbon-dioxide-400kyr}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Disruption of the carbon cycle}
+
+  \imgth[.9]{carbon-cycle}
+\end{frame}
+
+\begin{frame}[standout]
+  \frametitle{Main factors}
+
+  \imgth[.9]{radiative-forcings}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Technology \& Environmental collapse}
+
+  \visible<+->{Common beliefs:}
+
+  \begin{itemize}[<+->]
+  \item Solution will be technological (geo-engineering, clean
+    energies)
+  \item Virtual world → doesn't pollute?
+  \item Growth can be controlled by energy efficiency
+  \end{itemize}
+
+  \visible<+->{Let's see!}
+\end{frame}
+
+\section{IPCC: 1.5 °C by 2100}
+\label{sec:1.5C-by-2100}
+
+\begin{frame}
+  \frametitle{What is the IPCC?}
+  \begin{itemize}[<+->]
+  \item Intergovernmental Panel on Climate Change
+  \item United Nations
+  \item Prepares assessment reports (6th in preparation)
+  \item 3 working groups
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{IPCC Report on 1.5\textdegree C Climate Change by 2100}
+
+  \visible<+->{Special report. 4 sections:}
+
+  \begin{enumerate}[<+->]
+  \item Understanding global warming of 1.5\celsius
+  \item Potential impacts and associated risks
+  \item Emission pathways consistent with 1.5\celsius{} warming
+  \item Response, Sustainable Development and Efforts to Eradicate
+    Poverty
+  \end{enumerate}
+
+  \visible<+->{Focus on 1. and 2.}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Speed of Climate change}
+  \begin{itemize}[<+->]
+  \item Current climate = pre-industrial climate +1\celsius{} (±
+    0.2\celsius)
+  \item Currently between 0.1\celsius{} and 0.3\celsius{} per decade
+  \item Up to 3\celsius{} in specific regions (Arctic)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[standout]
+  \imgtw{ipcc-warming}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Long-term climate change}
+
+  \begin{itemize}[<+->]
+  \item 10k years to dissipate \CO
+  \item could stabilize without new emissions
+  \item could diverge due to feedbacks
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Impacts and Risks}
+  \visible<+->{Every degree matters (+1\celsius{} $<<$ +1.5\celsius{}
+    $<<$ +2\celsius{}}):
+  \begin{itemize}[<+->]
+  \item \textbf{risk of triggering new feedbacks} (more on that later)
+  \item permanent loss of biodiversity
+  \item more droughts
+  \item spikier climate (heavier rains, drier summers)
+  \item higher extreme temperatures (+3\celsius{} at day,
+    +4.5\celsius{} at night)
+  \item precipitation deficits
+  \item 0.1m rise in sea level at 2\celsius{} compared to 1.5\celsius
+  \item 13\% instead of 4\% of land area would change ecosystems
+  \item ocean acidification
+  \item …
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[standout]
+  \imgth{ipcc-spm2}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Social impacts}
+  Harder to forecast.
+\end{frame}
+
+\section{Updated climate trajectories}
+\label{sec:climate-trajectories}
+
+\begin{frame}
+  \frametitle{Latest developments (August 2018)}
+  Paper in PNAS. Re-evaluates the importance of feedbacks.
+
+\end{frame}
+
+\begin{frame}[standout]
+  \imgtw{traj-3}
+\end{frame}
+
+\begin{frame}
+  \frametitle{References from the past}
+
+  \scalebox{0.8}{
+    \begin{tabular}{llllll}
+      \toprule
+      Period          & Time                     & \CO{} ppm & \celsius                & Sea   & Stabilization \\
+      \midrule
+      Current         & 0                        & 400       & >1.0                    & NA    & No            \\
+      A. Mid-Holocene & \textasciitilde 6-7 ka   & 260       & \textasciitilde 0.6-0.9 & NA    & No            \\
+      B. Eemian       & \textasciitilde 125 ka   & 280-300   & 1.0-1.5                 & 6-9   & No            \\
+      C. Mid-Pliocene & \textasciitilde 3-4 Ma   & 400-450   & 2-3                     & 10-22 & Paris         \\
+      D. Mid-Miocene  & \textasciitilde 15-17 Ma & 300-500   & 4-5                     & 10-60 & Current       \\
+      \bottomrule
+    \end{tabular}
+  }
+\end{frame}
+
+\begin{frame}
+  \frametitle{Feedbacks}
+  \scalebox{.9}{
+  \begin{tabular}{llll}
+    \toprule
+    Feedback                      & Threshold \celsius          & Force \celsius & Speed       \\
+    \midrule
+    Permafrost thawing            & \textasciitilde 2.0\celsius & 0.09           & by 2100     \\
+    Weakening of C sinks          & \textasciitilde 2.0\celsius & 0.25           & by 2100     \\
+    Oceanic bacterial respiration & \textasciitilde 2.0\celsius & 0.02           & by 2100     \\
+    Amazon forest dieback         & \textasciitilde 2.0\celsius & 0.05           & by 2100     \\
+    Boreal forest dieback         & \textasciitilde 2.0\celsius & 0.06           & by 2100     \\
+    Reduct of Northern snow       & scales                      & North x2       & by 2100     \\
+    Arctic summer sea-ice loss    & \textasciitilde 1.0\celsius & North x2       & by 2050     \\
+    Antarctic summer sea-ice loss & \textasciitilde 1.0\celsius & Smaller        & 30\%by 2100 \\
+    \bottomrule
+  \end{tabular}
+  }
+\end{frame}
+
+\begin{frame}[standout]
+  \imgth{traj-1}
+\end{frame}
+
+\section{Impact of technology}
+\label{sec:impact-of-technology}
+
+\begin{frame}
+  \frametitle{Vocabulary}
+  Technology = Information Technology in the next slides.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Energy share of technology}
+  \begin{itemize}
+  \item 10\% Cumulative Annual Growth Rate
+  \item 2\% total budget in 2010
+  \item (domestic flights are 2\%, cars 8\%)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[standout]
+  \imgth{lean-energy-share}
+\end{frame}
+
+\begin{frame}
+  \frametitle{GHG share of technology}
+
+  Same than energy.
+\end{frame}
+
+\begin{frame}[standout]
+  \imgtw{lean-ghg-share}
+\end{frame}
+
+\begin{frame}[standout]
+  \frametitle{Internet}
+
+  \imgtw{lean-exabytes}
+\end{frame}
+
+\begin{frame}[standout]
+  \frametitle{Devices}
+  \imgtw{lean-devices}
+\end{frame}
+
+\begin{frame}[standout]
+  \frametitle{Users}
+
+  \imgth[.9]{lean-connection}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Aggravating factors}
+  \begin{itemize}
+  \item \textsc{YouTube} effect
+  \item Rebound effect
+  \item Hidden construction cost
+  \item Energy-resources tradeoff
+  \end{itemize}
+\end{frame}
+
+\begin{frame} 
+  \frametitle{\textsc{YouTube} effect ---~user view}
+
+  \imgtw[.9]{youtube-phone}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Effet \textsc{YouTube} ---~datacenter view}
+
+  \imgtw{datacenter}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\textsc{YouTube} effect}
+
+  Energy consumption of a video viewing: \textbf{1500} times higher
+  than the smartphone consumption
+\end{frame}
+
+\begin{frame}
+  \frametitle{Rebound effect}
+
+  \visible<+->{Increasing the energy efficiency of an object increases
+    the consumption related to its function.}
+
+\end{frame}
+
+\begin{frame}[standout]
+  \imgtw{lean-energy-intensity}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Hidden production cost}
+
+  Smartphone: production energy cost = 33 $\times$ its annual
+  consumption
+
+\end{frame}
+
+
+\begin{frame}[standout]
+  \frametitle{Energy-Resources tradeoff}
+  \imgtw[.9]{energy-resources}
+\end{frame}
+
+\begin{frame}[standout]
+  \frametitle{Most important resources}
+  \imgtw[.9]{lean-metals}
+\end{frame}
+
+\begin{frame}[standout]
+  \frametitle{Recycling rate}
+  \imgtw[.9]{lean-recycling-rate}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Recycling}
+
+  \visible<+->{Several stages of loss:}
+
+  \begin{enumerate}[<+->]
+  \item Dissipative usage
+  \item Usage loss
+  \item Downcycling
+  \end{enumerate}
+
+  \visible<+->{Only the rest can be recycled.}
+\end{frame}
+
+\begin{frame}[standout]
+  \imgtw[.9]{recycling-cycle}
+\end{frame}
+
+\section{Conclusion}
+
+\begin{frame}
+  \frametitle{Conclusion}
+  \begin{itemize}[<+->]
+  \item Hard, entangled problem
+  \item Urgent (or feedbacks will activate)
+  \item Known for a long time
+  \item Main polluters = main deciders → inertia
+  \item Technology and science are not the answer by themselves
+  \item Limiting growth is more important
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[standout]
+  Thank you for your attention!
+\end{frame}
+
+\begin{frame}[standout]
+  Questions/Discussion Time!
+\end{frame}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

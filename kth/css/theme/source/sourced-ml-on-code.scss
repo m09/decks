@@ -1,0 +1,19 @@
+/**
+ * Beige theme for reveal.js.
+ *
+ * Copyright (C) 2011-2012 Hakim El Hattab, http://hakim.se
+ */
+
+
+// Default mixins and settings -----------------
+@import "../template/mixins";
+// ---------------------------------------------
+
+
+$colorLeft: #f89c30;
+$colorLeftLight: #fde6cb;
+$colorRight: #f15f5f;
+$colorRightLight: #fbd7d7;
+
+
+@import "../template/sourced-common";

@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <title>Machine Learning for Large Scale Code Analysis</title>
+
+    <link rel="stylesheet" href="../reveal.js/css/reset.css" />
+    <link rel="stylesheet" href="../reveal.js/css/reveal.css" />
+    <!-- We don't link a main theme here, it's handled by javascript -->
+    <link rel="stylesheet" href="css/custom.css" />
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="../reveal.js/lib/css/zenburn.css" />
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.type = "text/css";
+      link.href = window.location.search.match(/print-pdf/gi)
+        ? "../reveal.js/css/print/pdf.css"
+        : "../reveal.js/css/print/paper.css";
+      document.getElementsByTagName("head")[0].appendChild(link);
+    </script>
+    <base target="_blank" />
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <h2>Machine Learning for Large Scale Code Analysis</h2>
+          <p style="margin-top: 40px;">
+            <span class="text-muted">for the</span>
+            KTH TCS Seminar
+            <span class="text-muted">series</span>
+          </p>
+          <p>
+            <span class="text-muted">on</span>
+            March 26, 2019
+          </p>
+          <p>
+            <span class="text-muted">by</span>
+            Hugo Mougard
+          </p>
+          <img
+            src="img/primary-black-background.svg"
+            width="25%"
+            style="margin-top: 40px;"
+          />
+        </section>
+        <section>
+          <section>
+            <h2>Talk Plan</h2>
+            <ul>
+              <li>Introduction</li>
+              <li>Overview of source{d} stack</li>
+              <li>Latest ML team project</li>
+            </ul>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h2>Introduction</h2>
+          </section>
+          <section>
+            <h4>Introduction</h4>
+            <h2 style="text-transform: lowercase;">source{d}</h2>
+            <ul>
+              <li>~40 employees, full-remote</li>
+              <li class="fragment">ML team: 7 employees</li>
+              <li class="fragment">Open-core company</li>
+              <li class="fragment">Goal: make ML on Code easy</li>
+            </ul>
+          </section>
+          <section>
+            <h4>Introduction</h4>
+            <h2>ML on Code</h2>
+            <p>Harder than Computer Vision, NLP</p>
+            <ul>
+              <li class="fragment">Less tooling</li>
+              <li class="fragment">Fewer models</li>
+              <li class="fragment">Less visibility</li>
+            </ul>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h2>Stack Overview</h2>
+          </section>
+          <section>
+            <div
+              style="background: white; border-radius: 15px; box-shadow: 5px;"
+            >
+              <img src="img/diagram.png" />
+            </div>
+          </section>
+          <section class="cad">
+            <h2>Code as Data</h2>
+          </section>
+          <section class="cad">
+            <h4>Code as Data</h4>
+            <h3>Overview</h3>
+            <p>3 sub-problems</p>
+            <ul>
+              <li class="fragment">Data Retrieval</li>
+              <li class="fragment">Data Processing</li>
+              <li class="fragment">Language Analysis</li>
+            </ul>
+          </section>
+          <section class="cad">
+            <h4>Code as Data</h4>
+            <h3>Data Retrieval</h3>
+            <p>2 projects</p>
+            <dl>
+              <dt class="fragment" data-fragment-index="1">
+                <a href="https://github.com/src-d/rovers">
+                  <code>rovers</code>
+                </a>
+              </dt>
+              <dd class="fragment" data-fragment-index="1">
+                Crawl the internet for git repositories
+              </dd>
+              <dt class="fragment" data-fragment-index="2">
+                <a href="https://github.com/src-d/borges">
+                  <code>borges</code>
+                </a>
+              </dt>
+              <dd class="fragment" data-fragment-index="2">
+                Download all know repositories
+              </dd>
+            </dl>
+          </section>
+          <section class="cad">
+            <h4>Code as Data</h4>
+            <h3>Data Retrieval</h3>
+            <p>Some gory details</p>
+            <ul>
+              <li class="fragment">51M repositories downloaded</li>
+              <li class="fragment">26M siva files</li>
+              <li class="fragment">47M left to go</li>
+              <li class="fragment">~500TB total size</li>
+              <li class="fragment">
+                cluster with 2k threads, 11TB RAM and 1PB storage
+              </li>
+            </ul>
+          </section>
+          <section class="cad">
+            <img src="img/borges.png" class="stretch" />
+          </section>
+          <section class="cad">
+            <h4>Code as Data</h4>
+            <h3>Data Processing</h3>
+            <dl>
+              <dt>
+                <a href="https://github.com/src-d/rovers">
+                  <code>gitbase</code>
+                </a>
+              </dt>
+              <dd>Expose git repos as SQL databases</dd>
+            </dl>
+          </section>
+          <section class="cad">
+            <img src="img/schema.png" class="stretch" />
+          </section>
+          <section class="cad">
+            <h4>Code as Data</h4>
+            <h3>Language Analysis</h3>
+            <dl>
+              <dt>
+                <a href="https://github.com/bblfsh/bblfshd">
+                  <code>bblfsh</code>
+                </a>
+              </dt>
+              <dd>Turn language specific ASTs into UASTs (Universal ASTs)</dd>
+            </dl>
+          </section>
+          <section class="cad">
+            <h4>Code as Data</h4>
+            <h3 style="margin-bottom: 0px;">Universal ASTs Specification</h3>
+            <p>Types shared across languages</p>
+            <ul>
+              <li>Identifier</li>
+              <li>String</li>
+              <li>QualifiedIdentifier</li>
+              <li>Comment</li>
+              <li>Block</li>
+              <li>…</li>
+            </ul>
+          </section>
+          <section class="cad">
+            <h4>Code as Data</h4>
+            <h3 style="margin-bottom: 0px;">Supported Languages</h3>
+            <ul>
+              <li>Bash</li>
+              <li>C++</li>
+              <li>C#</li>
+              <li>Go</li>
+              <li>Java</li>
+              <li>JavaScript</li>
+              <li>PHP</li>
+              <li>Python</li>
+              <li>Ruby</li>
+              <li>TypeScript</li>
+            </ul>
+          </section>
+          <section class="cad">
+            <h4>Code as Data</h4>
+            <h3>Demo time 😎</h3>
+            <p>
+              <a
+                href="http://localhost:8888/notebooks/Code%20as%20Data%20demo.ipynb"
+              >
+                This way
+              </a>
+            </p>
+          </section>
+          <section class="moc">
+            <h4>Machine Learning on Code</h4>
+            <h3 style="margin-bottom:0;">Built on Code as Data</h3>
+            <dl>
+              <dt>
+                <a href="https://github.com/src-d/apollo">
+                  <code>apollo</code>
+                </a>
+              </dt>
+              <dd>
+                Duplicate detection
+              </dd>
+              <dt class="fragment" data-fragment-index="1">
+                <a href="https://github.com/src-d/tmsc">
+                  <code>tmsc</code>
+                </a>
+                &
+                <a href="https://github.com/src-d/snippet-ranger">
+                  <code>snippet-ranger</code>
+                </a>
+              </dt>
+              <dd class="fragment" data-fragment-index="1">
+                Repository topic modeling
+              </dd>
+              <dt class="fragment" data-fragment-index="2">
+                <a href="https://github.com/src-d/">
+                  <code>id2vec</code>
+                </a>
+              </dt>
+              <dd class="fragment" data-fragment-index="2">
+                Identifier embedding
+              </dd>
+              <dt class="fragment" data-fragment-index="3">
+                <a href="https://github.com/src-d/ml">
+                  <code>ml</code>
+                </a>
+              </dt>
+              <dd class="fragment" data-fragment-index="3">
+                Vendor/garbage detection
+              </dd>
+            </dl>
+          </section>
+        </section>
+        <section>
+          <section class="moc">
+            <h2>Assisted Code Review</h2>
+          </section>
+          <section class="moc">
+            <h4>Assisted Code Review</h4>
+            <h3 style="margin-bottom: 50px;">Lookout</h3>
+            <div
+              style="border-radius: 15px; background: white; display: inline-block; width: 70%"
+            >
+              <img src="img/lookout-arch.png" />
+            </div>
+          </section>
+        </section>
+        <section class="moc">
+          <section>
+            <h2>Latest ML Team Project</h2>
+          </section>
+          <section>
+            <h4>Latest ML Team Project</h4>
+            <h3>Assisted code review</h3>
+            <p>3 targets initial targets</p>
+            <ul>
+              <li class="fragment">Formatting</li>
+              <li class="fragment">Typos</li>
+              <li class="fragment">Best practices</li>
+            </ul>
+          </section>
+          <section>
+            <h4>Latest ML Team Project</h4>
+            <h3>format-analyzer</h3>
+            <p>Goal: automate formatting</p>
+            <ul>
+              <li class="fragment">
+                Model existing style in style repositories
+              </li>
+              <li class="fragment">Apply modeled styles to new code</li>
+            </ul>
+          </section>
+          <section>
+            <h4>Latest ML Team Project</h4>
+            <h3>Design choices</h3>
+            <p>Must explain false positives</p>
+            <p><b>OR</b></p>
+            <p>Must not have false positives</p>
+          </section>
+          <section>
+            <img src="img/spectrum.jpg" class="stretch" />
+          </section>
+          <section>
+            <h4>Latest ML Team Project</h4>
+            <h3>First experiment</h3>
+            <p>Unsupervised learning with explainable rules</p>
+            <ul>
+              <li class="fragment">Learn a tree model on existing code</li>
+              <li class="fragment">Transform the tree to rules</li>
+              <li class="fragment">Apply modeled styles to new code</li>
+            </ul>
+          </section>
+          <section>
+            <h4>Latest ML Team Project</h4>
+            <h3>Problem statement & Features</h3>
+            <p><a href="http://localhost:3000/">This way</a></p>
+          </section>
+          <section>
+            <h4>Latest ML Team Project</h4>
+            <h3>Model</h3>
+            <ul>
+              <li>Decision tree or random forest</li>
+              <li class="fragment">
+                Bayesian Process hyper-parameter optimization
+              </li>
+              <li class="fragment">
+                Rule = conjunction of conditions on a branch
+              </li>
+              <li class="fragment">Condition filtering</li>
+              <li class="fragment">
+                Prediction filtering (constant UAST invariant)
+              </li>
+            </ul>
+          </section>
+          <section>
+            <h4>Latest ML Team Project</h4>
+            <h3>Evaluation</h3>
+            <p>Reproduction task: ~94.3% precision</p>
+            <div
+              style=" background: white; border-radius: 15px; width: 60%; display: inline-block;"
+            >
+              <img src="img/size.png" />
+            </div>
+          </section>
+          <section>
+            <h4>Latest ML Team Project</h4>
+            <h3>Ways to improve</h3>
+            <ul>
+              <li>More expressive model</li>
+              <li class="fragment">Autoregressive model</li>
+              <li class="fragment">
+                Use more data than a single repository to train
+              </li>
+            </ul>
+          </section>
+          <section>
+            <h4>Latest ML Team Project</h4>
+            <h3>Second experiment</h3>
+            <p>Ongoing, Early stage. Goal: use expressive models</p>
+            <ul>
+              <li class="fragment">Generative model AST → Code</li>
+              <li class="fragment">Meta-learning on numerous repositories</li>
+            </ul>
+          </section>
+          <section>
+            <h4>Latest ML Team Project</h4>
+            <h3>Problem statement</h3>
+            <p>Predict formatting characters before each leaf of the AST</p>
+            <ul>
+              <li class="fragment">Inter-leaves formatting</li>
+              <li class="fragment">Sequence prediction</li>
+            </ul>
+          </section>
+          <section>
+            <h4>Latest ML Team Project</h4>
+            <h3>Model</h3>
+            <ul>
+              <li class="fragment">GNN encoder</li>
+              <li class="fragment">RNN decoder for each leaf</li>
+              <li class="fragment">Property: short dependencies</li>
+              <li class="fragment">Property: more autoregressive</li>
+            </ul>
+          </section>
+          <section>
+            <h4>Latest ML Team Project</h4>
+            <h3>Training</h3>
+            <p>Supervised learning?</p>
+            <ul>
+              <li class="fragment">On 1 repo: can be small</li>
+              <li class="fragment">On many repos: not consistent style</li>
+              <li class="fragment">
+                But model is expressive: more data is good
+              </li>
+            </ul>
+          </section>
+          <section>
+            <h4>Latest ML Team Project</h4>
+            <h3 style="margin-bottom: 0px;">Meta-learning</h3>
+            <p>2 steps</p>
+            <ul>
+              <li class="fragment">
+                Learn how to learn style on many repositories
+              </li>
+              <li class="fragment">Learn style on a specific repository</li>
+              <li class="fragment">Property: can use data</li>
+              <li class="fragment">Property: can model small repos</li>
+            </ul>
+          </section>
+          <section>
+            <h4>Latest ML Team Project</h4>
+            <h3>Multi-task Learning</h3>
+            <p>Each repository is considered as a task $\mathcal{T}_i$</p>
+
+            $$\min_\theta\sum_{\mathcal{T}_i \sim p(\mathcal{T})}
+            \mathcal{L}_{\mathcal{T}_i}(f_{\theta})$$
+          </section>
+          <section>
+            <h4>Latest ML Team Project</h4>
+            <h3 style="margin-bottom: 0px;">Meta-learning</h3>
+            <p>Model-Agnostic Meta-Learning approach</p>
+            <p>
+              Minimize loss AFTER having optimized for a task $\mathcal{T}_i$
+            </p>
+
+            $$\min_\theta\sum_{\mathcal{T}_i \sim p(\mathcal{T})}
+            \mathcal{L}_{\mathcal{T}_i}(f_{\theta'_i})$$
+
+            <p>
+              $\theta'_i$ is optimized from $\theta$ on $\mathcal{T}_i$ at each
+              iteration
+            </p>
+          </section>
+          <section>
+            <h4>Latest ML Team Project</h4>
+            <h3>Results</h3>
+            <p>For the next seminar!</p>
+          </section>
+        </section>
+        <section>
+          <h3>Conclusion</h3>
+          <ul>
+            <li>
+              Lots of Open Source Software:
+              <a href="https://sourced.tech">sourced.tech</a>
+            </li>
+            <li>Git made easy with SQL interface</li>
+            <li>Universal ASTs</li>
+            <li>Fun with tree & meta-learning</li>
+          </ul>
+        </section>
+        <section>
+          <p style="font-size: 4rem;">Thank you for your attention!</p>
+        </section>
+        <section>
+          <p style="font-size: 4rem;margin-bottom: 200px;">
+            Questions & Discussion
+          </p>
+          <p class="text-muted">
+            Hugo Mougard &lt;hugo@sourced.tech&gt;
+          </p>
+        </section>
+      </div>
+    </div>
+
+    <script src="../reveal.js/js/reveal.js"></script>
+
+    <script>
+      Reveal.initialize({
+        controls: false,
+        controlsTutorial: false,
+        history: true,
+        slideNumber: "c/t",
+        dependencies: [
+          { src: "../reveal.js/plugin/markdown/marked.js" },
+          { src: "../reveal.js/plugin/markdown/markdown.js" },
+          { src: "../reveal.js/plugin/highlight/highlight.js", async: true },
+          { src: "../reveal.js/plugin/math/math.js", async: true }
+        ]
+      });
+
+      class Styles {
+        constructor(styles, defaultStyle) {
+          this.defaultStyle = defaultStyle;
+          this.styles = new Map();
+          for (const [name, url] of styles) {
+            const element = this.createLinkElement(url);
+            this.styles.set(name, element);
+            const revealCSS = document.querySelector("head > link");
+            document
+              .getElementsByTagName("head")[0]
+              .insertBefore(element, revealCSS.nextSibling);
+            element.disabled = true;
+            console.log(name, url);
+          }
+          this.styleNames = Array.from(this.styles.keys());
+          this.current = undefined;
+          this.activateStyle(this.defaultStyle);
+        }
+
+        createLinkElement(url) {
+          const element = document.createElement("link");
+          element.setAttribute("rel", "stylesheet");
+          element.setAttribute("type", "text/css");
+          element.setAttribute("href", url);
+          return element;
+        }
+
+        styleSlide(slide) {
+          this.activateStyle(this.findStyle(slide));
+        }
+
+        activateStyle(name) {
+          if (this.current !== name) {
+            this.styles.get(name).disabled = false;
+            if (this.styles.has(this.current)) {
+              this.styles.get(this.current).disabled = true;
+            }
+            this.current = name;
+          }
+        }
+
+        findStyle(slide) {
+          for (const clazz of slide.classList) {
+            if (this.styleNames.includes(clazz)) {
+              return clazz;
+            }
+          }
+          for (const clazz of slide.parentNode.classList) {
+            if (this.styleNames.includes(clazz)) {
+              return clazz;
+            }
+          }
+          return this.defaultStyle;
+        }
+      }
+
+      styles = new Styles(
+        [
+          ["main", "css/theme/sourced-main.css"],
+          ["moc", "css/theme/sourced-ml-on-code.css"],
+          ["cad", "css/theme/sourced-code-as-data.css"]
+        ],
+        "main"
+      );
+
+      Reveal.addEventListener("slidechanged", function(event) {
+        styles.styleSlide(event.currentSlide);
+        // event.previousSlide, event.currentSlide, event.indexh, event.indexv
+      });
+    </script>
+  </body>
+</html>

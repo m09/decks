@@ -1,0 +1,19 @@
+h1, h2, h3, h4, h5, h6 {
+    margin: 0px !important;
+}
+
+h6 {
+    font-size: 15px;
+    color: #999 !important;
+}
+
+img.no-box {
+    border: 0 !important;
+    box-shadow: none !important;
+}
+
+.reveal .slide-number {
+    opacity: 1;
+    color: #000000 !important;
+    font-size: 25px;
+}

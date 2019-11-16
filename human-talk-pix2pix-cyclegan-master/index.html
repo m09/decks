@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <title>Unsupervised image translation</title>
+
+    <link rel="stylesheet" href="../reveal.js/css/reset.css" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="../reveal.js/css/reveal.css" />
+    <link rel="stylesheet" href="../reveal.js/css/theme/blood.css" />
+    <link rel="stylesheet" href="css/custom.css" />
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="../reveal.js/lib/css/zenburn.css" />
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.type = "text/css";
+      link.href = window.location.search.match(/print-pdf/gi)
+        ? "../reveal.js/css/print/pdf.css"
+        : "../reveal.js/css/print/paper.css";
+      document.getElementsByTagName("head")[0].appendChild(link);
+    </script>
+    <base target="_blank" />
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <h2>Traduire des images sans données d'entraînement</h2>
+          <p class="text-primary">Human Talks</p>
+          <p class="text-primary">Mardi 10 avril 2018</p>
+        </section>
+        <section>
+          <section data-background-image="img/bossu.jpg">
+            <h1>Yours truly</h1>
+          </section>
+          <section>
+            <ul>
+              <li>Hugo Mougard</li>
+              <li>
+                Indépendant —
+                <a href="https://www.bravebots.io/">Brave Bots</a>,
+                <a href="http://www.ml-week.com/">ML Week</a>
+              </li>
+              <li>
+                Co-organise le
+                <a href="https://www.meetup.com/Nantes-Machine-Learning-Meetup/"
+                  >ML meetup</a
+                >
+              </li>
+              <li>Formation, consulting & dev en Machine Learning</li>
+            </ul>
+          </section>
+        </section>
+        <section>
+          <section data-background-image="img/context.jpeg">
+            <h1 style="color: black;">Contexte</h1>
+          </section>
+          <section>
+            <h3>Machine Learning</h3>
+            <p>Programmation implicite</p>
+            <img src="img/tree.png" />
+          </section>
+          <section>
+            <h3>Réseaux de neurones</h3>
+            <ul>
+              <li class="fragment">1 neurone = somme pondérée d'inputs</li>
+              <li class="fragment">
+                1 neurone = calcul
+                <strong class="text-danger">très</strong> simple
+              </li>
+              <li class="fragment">
+                10<span class="text-danger">M</span> neurone<span
+                  class="text-danger"
+                  >s</span
+                >
+                = calcul complexe
+              </li>
+            </ul>
+          </section>
+          <section>
+            <h3>Deep Learning</h3>
+            Réseaux de neurones profonds
+          </section>
+          <section>
+            <h5>Deep Learning</h5>
+            <h3>Computer Vision</h3>
+            <img src="img/image-segmentation.png" class="stretch" />
+          </section>
+          <section>
+            <h5>Deep Learning</h5>
+            <h3>Natural Language Processing</h3>
+            <img src="img/gnmt.png" />
+          </section>
+        </section>
+        <section>
+          <section data-background-image="img/task.jpg">
+            <h1>Tâche</h1>
+          </section>
+          <section>
+            <h3>Traduction d'images</h3>
+            <img src="img/translations.jpeg" />
+          </section>
+        </section>
+        <section>
+          <section data-background-image="img/method.png">
+            <h1>Méthode</h1>
+          </section>
+          <section>
+            <h3>Première approche</h3>
+            <ul>
+              <li class="fragment">utiliser un réseau d'images</li>
+              <li class="fragment">donner des images en entrée</li>
+              <li class="fragment">sortir leur traduction en sortie</li>
+              <li class="fragment">
+                entraîner le réseau en réduisant ses erreurs
+              </li>
+            </ul>
+          </section>
+          <section>
+            <h3>Générateur</h3>
+            <img src="img/ugly-generator.svg" class="stretch" />
+          </section>
+          <section>
+            <h3>Générateur</h3>
+            <img src="img/bad-generator.svg" class="stretch" />
+          </section>
+          <section>
+            <h3>Générateur</h3>
+            <img src="img/good-generator.svg" class="stretch" />
+          </section>
+          <section>
+            <h3>Difficile ?</h3>
+            <p class="fragment">
+              Difficile de mesurer <strong>explicitement</strong> la qualité
+              d'une traduction.
+            </p>
+          </section>
+          <section>
+            <h3>Mesure explicite</h3>
+            Images floues en résultat :
+            <img src="img/vae.png" class="stretch" />
+          </section>
+          <section>
+            <h3>Retour du comeback de l'implicite</h3>
+            <p>
+              Modèle implicite <span class="text-danger">et</span> mesure
+              implicite de la qualité
+            </p>
+            <p>→ Réseaux d'images pour mesurer la qualité</p>
+          </section>
+          <section>
+            <h3>Générateur + discriminateur</h3>
+            <img src="img/bad-full.svg" class="stretch" />
+          </section>
+          <section>
+            <h3>Générateur + discriminateur</h3>
+            <img src="img/good-full.svg" class="stretch" />
+          </section>
+          <section>
+            <img src="img/pix2pix.jpg" class="stretch" />
+          </section>
+          <section>
+            <h3>Deuxième approche</h3>
+            <p>Sans les données !</p>
+          </section>
+          <section>
+            <h3>Idée</h3>
+            <p>Traduire deux fois doit ramener à l'entrée</p>
+          </section>
+          <section>
+            <h3>Cheval vers zèbre</h3>
+            <img src="img/model2.jpg" class="stretch" />
+            <p class="text-muted">
+              https://hardikbansal.github.io/CycleGANBlog/
+            </p>
+          </section>
+          <section>
+            <h3>Zèbre vers cheval</h3>
+            <img src="img/model1.jpg" class="stretch" />
+            <p class="text-muted">
+              https://hardikbansal.github.io/CycleGANBlog/
+            </p>
+          </section>
+          <section>
+            Pas besoin de données → énorme avantage.
+          </section>
+          <section>
+            <img src="img/legacy.jpg" class="stretch" />
+          </section>
+          <section>
+            <img src="img/cats-dogs.jpg" class="stretch" />
+          </section>
+          <section>
+            <img src="img/ramen.jpg" class="stretch" />
+          </section>
+        </section>
+        <section>
+          <section data-background-image="img/next.jpg">
+            <h1>Futur</h1>
+          </section>
+          <section>
+            Gérer les changements de structure visuelle
+          </section>
+          <section>
+            NLP + traduction d'images = décrire des images sans données annotées
+          </section>
+          <section>
+            …
+          </section>
+        </section>
+        <section data-background-image="img/bisounours.jpg">
+          <h1 class="text-light">Merci pour votre attention</h1>
+        </section>
+        <section>
+          <h1>
+            <span style="color: pink;">Q</span
+            ><!--
+            --><span style="color: yellow;">u</span
+            ><!--
+            --><span style="color: orange;">e</span
+            ><!--
+            --><span style="color: green;">s</span
+            ><!--
+            --><span style="color: blue;">t</span
+            ><!--
+            --><span style="color: red;">i</span
+            ><!--
+            --><span style="color: gold;">o</span
+            ><!--
+            --><span style="color: silver;">n</span
+            ><!--
+            --><span style="color: purple;">s</span>
+            <span style="color: teal;">?</span>
+          </h1>
+        </section>
+      </div>
+    </div>
+
+    <script src="../reveal.js/js/reveal.js"></script>
+
+    <script>
+      Reveal.initialize({
+        controls: false,
+        slideNumber: true,
+        history: true,
+        dependencies: [
+          { src: "../reveal.js/plugin/markdown/marked.js" },
+          { src: "../reveal.js/plugin/markdown/markdown.js" },
+          { src: "../reveal.js/plugin/notes/notes.js", async: true },
+          { src: "../reveal.js/plugin/highlight/highlight.js", async: true }
+        ]
+      });
+    </script>
+  </body>
+</html>

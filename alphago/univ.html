@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <title>
+      Intelligence Artificielle et jeu de go : Comment Google a battu l'un des
+      meilleurs joueurs de Go
+    </title>
+
+    <link rel="stylesheet" href="../reveal.js/css/reset.css" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="../reveal.js/css/reveal.css" />
+    <link rel="stylesheet" href="../reveal.js/css/theme/sky.css" />
+    <link rel="stylesheet" href="css/custom.css" />
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="../reveal.js/lib/css/zenburn.css" />
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.type = "text/css";
+      link.href = window.location.search.match(/print-pdf/gi)
+        ? "../reveal.js/css/print/pdf.css"
+        : "../reveal.js/css/print/paper.css";
+      document.getElementsByTagName("head")[0].appendChild(link);
+    </script>
+    <base target="_blank" />
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <h3>
+            <strong>I.A.</strong>
+            et
+            <strong>jeu de go :</strong>
+            <br />
+            Comment Google a battu l'un des meilleurs joueurs de Go
+          </h3>
+          <br />
+          <div class="text-muted">
+            Par
+            <span class="text-primary">Marc JEGOU</span>¹,
+            <span class="text-primary">Florian RICHOUX</span>² et
+            <span class="text-primary">Hugo MOUGARD</span>¹²
+            <br />
+            Le <span class="text-primary">5 avril 2016</span> <br /><br />
+            <img src="img/ffg.png" class="no-box" height="80" />
+            <span style="display: inline-block; width: 40px;"></span>
+            <img src="img/lina.png" class="no-box" height="80" />
+            <span style="display: inline-block; width: 40px;"></span>
+            <img src="img/univ.png" class="no-box" height="80" />
+            <br /><br />
+            <small>
+              <table>
+                <tr>
+                  <td>¹</td>
+                  <td>
+                    Yosakura Club de Go de Nantes, Fédération Française de Go
+                  </td>
+                </tr>
+                <tr style="border: 0px;">
+                  <td>²</td>
+                  <td>
+                    Laboratoire d'Informatique de Nantes Atlantique, Université
+                    de Nantes
+                  </td>
+                </tr>
+              </table>
+            </small>
+          </div>
+        </section>
+        <section>
+          <h1>Sommaire</h1>
+          <ul style="list-style: none;">
+            <li>
+              Le jeu de Go
+              <span class="text-muted">par Marc JEGOU</span>
+            </li>
+            <li>
+              I.A. et jeux
+              <span class="text-muted">par Florian RICHOUX</span>
+            </li>
+            <li>
+              AlphaGo
+              <span class="text-muted">par Hugo MOUGARD</span>
+            </li>
+            <li>Conclusion</li>
+          </ul>
+        </section>
+        <section>
+          <section>
+            <h2>Le jeu de Go</h2>
+            <br />
+            Marc JEGOU
+            <br /><br />
+            <small>
+              Président du Club Yosakura Nantes
+              <br />
+              Fédération Française de Go
+            </small>
+            <br /><br />
+            <img src="img/ffg.png" class="no-box" height="100" />
+          </section>
+          <section>
+            <h4>Le jeu de Go</h4>
+            <h3>Aspects historiques</h3>
+            <ul>
+              <li>Jeu né en Chine il y a <strong>4000</strong> ans</li>
+              <li>Joué en Corée dès le Ve siècle</li>
+              <li>Au Japon dès le VIIIe siècle</li>
+              <li>Domination du Japon jusqu'aux années 80</li>
+            </ul>
+          </section>
+          <section>
+            <h4>Le jeu de Go</h4>
+            <h3>Aspects historiques</h3>
+            <br />
+            <img src="img/duel.png" height="400" />
+          </section>
+          <section>
+            <h4>Le jeu de Go</h4>
+            <h3>Aspects historiques</h3>
+            <br />
+            <img src="img/japan-ancient.png" height="400" />
+          </section>
+          <section>
+            <h4>Le jeu de Go</h4>
+            <h3>Dans le reste du monde</h3>
+            <br />
+            <dl>
+              <dt>1979</dt>
+              <dd>1e championnat du monde amateur</dd>
+              <dt>1982</dt>
+              <dd>International Go Federation</dd>
+              <dt>2005</dt>
+              <dd>International Mind Sport Association</dd>
+            </dl>
+          </section>
+          <section>
+            <h4>Le jeu de Go</h4>
+            <h3>En France</h3>
+            <br />
+            <dl>
+              <dt>1969</dt>
+              <dd>Fédération Française de Go</dd>
+              <dt>2015</dt>
+              <dd>
+                Équipe de France championne d'Europe, Fan Hui triple champion
+                d'Europe
+              </dd>
+            </dl>
+          </section>
+          <section>
+            <h4>Le jeu de Go</h4>
+            <h3>En France</h3>
+            <br />
+            <img src="img/french-team.png" height="300" />
+          </section>
+          <section>
+            <h4>Le jeu de Go</h4>
+            <h3>En France</h3>
+            <br />
+            <img src="img/maitre-lim.png" height="300" />
+          </section>
+          <section>
+            <h4>Le jeu de Go</h4>
+            <h3>Introduction</h3>
+            <figure>
+              <img src="img/go-set.png" />
+              <figcaption>
+                Noir et blanc posent chacun leur tour une pierre sur une
+                intersection du goban, jusqu'à la fin de la partie.
+              </figcaption>
+            </figure>
+          </section>
+          <section>
+            <h4>Le jeu de Go</h4>
+            <h3>Règles : les libertés</h3>
+            <img src="img/liberties.png" />
+          </section>
+          <section>
+            <h4>Le jeu de Go</h4>
+            <h3>Règles : les groupes</h3>
+            <img src="img/group-liberties.png" />
+          </section>
+          <section>
+            <h4>Le jeu de Go</h4>
+            <h3>Règles : capture</h3>
+            <div style="position: relative; width: 100%;">
+              <img
+                src="img/ataried.png"
+                class="fragment fade-out no-box"
+                data-fragment-index="1"
+              />
+              <div
+                style="position: absolute; left: 50%;
+                          top: 0px; width: 100%;"
+              >
+                <img
+                  src="img/captured.png"
+                  class="fragment no-box"
+                  data-fragment-index="1"
+                  style="position: relative; top: 0px; left: -50%;"
+                />
+              </div>
+            </div>
+            <div style="position: relative; width: 100%;">
+              <img
+                src="img/ataried.png"
+                class="fragment no-box"
+                data-fragment-index="2"
+              />
+              <div
+                style="position: absolute; left: 50%;
+                          top: 0px; width: 100%;"
+              >
+                <img
+                  src="img/save.png"
+                  class="fragment no-box"
+                  data-fragment-index="3"
+                  style="position: relative; top: 0px; left: -50%;"
+                />
+              </div>
+            </div>
+          </section>
+          <section>
+            <h4>Le jeu de Go</h4>
+            <h3>Règles : suicide et capture</h3>
+            <div style="position: relative; width: 100%;">
+              <img
+                src="img/not-suicide.png"
+                class="fragment fade-out no-box"
+                data-fragment-index="1"
+              />
+              <div
+                style="position: absolute; left: 50%;
+                          top: 0px; width: 100%;"
+              >
+                <img
+                  src="img/not-suicide-captured.png"
+                  class="fragment no-box"
+                  data-fragment-index="1"
+                  style="position: relative; top: 0px; left: -50%;"
+                />
+              </div>
+            </div>
+          </section>
+          <section>
+            <h4>Le jeu de Go</h4>
+            <h3>Conséquence : vie par deux yeux</h3>
+            <img src="img/two-eyes.png" />
+          </section>
+          <section>
+            <h4>Le jeu de Go</h4>
+            <h3>Règles : score</h3>
+            <figure>
+              <div style="position: relative; width: 100%;">
+                <img
+                  src="img/unscored.png"
+                  class="fragment fade-out no-box"
+                  data-fragment-index="1"
+                  height="300"
+                />
+                <div
+                  style="position: absolute; left: 50%;
+                            top: 0px; width: 100%;"
+                >
+                  <img
+                    src="img/score.png"
+                    class="fragment no-box"
+                    data-fragment-index="1"
+                    style="position: relative; top: 0px; left:
+                              -50%;"
+                    height="300"
+                  />
+                </div>
+              </div>
+              <figcaption>
+                <span class="fragment">
+                  △ = 14 pierres + 30 territoires = 44 points
+                </span>
+                <br />
+                <span class="fragment">
+                  ◯ = 14 pierres + 23 territoires = 37 points
+                </span>
+                <p class="fragment">
+                  Avec un komi de 7.5 points, blanc gagne de 0.5 points
+                </p>
+              </figcaption>
+            </figure>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h2>Intelligence Artificielle et jeux</h2>
+            <br />
+            Florian RICHOUX
+            <br /><br />
+            <small
+              >Enseignant-Chercheur au LINA
+              <br />
+              Université de Nantes</small
+            >
+            <br /><br />
+            <img src="img/lina.png" class="no-box" height="100" />
+            <span style="display: inline-block; width: 40px;"></span>
+            <img src="img/univ.png" class="no-box" height="120" />
+          </section>
+          <section>
+            <h4>I.A. et jeux</h4>
+            <h3>Courte histoire de l'I.A. des jeux</h3>
+            <figure>
+              <figcaption>Morpion</figcaption>
+              <img src="img/tic-tac-toe.png" height="300" />
+            </figure>
+            <p>Facile pour une machine</p>
+          </section>
+          <section>
+            <h4>I.A. et jeux</h4>
+            <h3>Courte histoire de l'I.A. des jeux</h3>
+            <figure>
+              <figcaption>Dames</figcaption>
+              <img src="img/checkers.png" height="300" />
+            </figure>
+            <p>
+              Les I.A. font des
+              <span class="text-danger">coups parfaits</span> depuis
+              <strong>2007</strong>
+            </p>
+          </section>
+          <section>
+            <h4>I.A. et jeux</h4>
+            <h3>Courte histoire de l'I.A. des jeux</h3>
+            <figure>
+              <figcaption>Échecs</figcaption>
+              <img src="img/chess-set.png" height="300" />
+            </figure>
+            <ul>
+              <li>
+                Victoire d'une IA contre un champion du monde :
+                <strong>1997</strong> (sur un super-calculateur)
+              </li>
+              <li>
+                Aujourd'hui : des applis
+                <span class="text-danger">smart-phones</span> battent la plupart
+                des grand-maîtres (Stockfish)
+              </li>
+            </ul>
+          </section>
+          <section>
+            <h4>I.A. et jeux</h4>
+            <h3>Courte histoire de l'I.A. des jeux</h3>
+            <figure>
+              <figcaption>Go</figcaption>
+              <img src="img/baduk.png" height="300" />
+            </figure>
+            <p>
+              Avant AlphaGo : les I.A. battaient des pros avec un
+              <span class="text-danger">handicap moyen</span> (3~4 pierres)
+            </p>
+          </section>
+          <section>
+            <h4>I.A. et jeux</h4>
+            <h3>Difficulté du Go pour une I.A.</h3>
+            <br />
+            <figure>
+              <img src="img/game-tree.png" height="300" class="no-box" />
+              <figcaption>
+                Arbre de décision du morpion (début de l'arbre)
+              </figcaption>
+            </figure>
+          </section>
+          <section>
+            <h4>I.A. et jeux</h4>
+            <h3>Difficulté du Go pour une I.A.</h3>
+            <h6>Raison n°1</h6>
+            <br />
+            <figure>
+              <figcaption>Taille de l'arbre de décision pour :</figcaption>
+              <br />
+              <small>
+                <table class="table table-condensed">
+                  <tr>
+                    <td>Morpion</td>
+                    <td>~</td>
+                    <td>$10^5$</td>
+                  </tr>
+                  <tr>
+                    <td>Dames</td>
+                    <td>~</td>
+                    <td>$10^{31}$</td>
+                  </tr>
+                  <tr>
+                    <td>Échecs</td>
+                    <td>~</td>
+                    <td>$10^{123}$</td>
+                  </tr>
+                  <tr>
+                    <td>Go</td>
+                    <td>~</td>
+                    <td>$10^{360}$</td>
+                  </tr>
+                </table>
+              </small>
+            </figure>
+            <br />
+            <img class="fragment no-box" src="img/universe.png" />
+          </section>
+          <section>
+            <h4>I.A. et jeux</h4>
+            <h3>Difficulté du Go pour une I.A.</h3>
+            <h6>Raison n°2</h6>
+            <br />
+            <figure>
+              <figcaption>
+                Heuristique dans les échecs : attribuer des points sur les
+                pièces
+              </figcaption>
+              <div style="position: relative; width: 100%;">
+                <img
+                  src="img/chess.png"
+                  class="fragment fade-out no-box"
+                  data-fragment-index="1"
+                  width="700"
+                />
+                <div
+                  style="position: absolute; left: 50%;
+                            top: 0px; width: 100%;"
+                >
+                  <img
+                    src="img/chess-values.png"
+                    class="fragment fade-in no-box"
+                    data-fragment-index="1"
+                    width="700"
+                    style="position: relative; top: 0px; left:
+                              -50%; width: 700px;"
+                  />
+                </div>
+              </div>
+            </figure>
+            <p class="fragment">
+              De telles heuristiques n'existent pas pour le Go !
+            </p>
+          </section>
+          <section>
+            <h4>I.A. et jeux</h4>
+            <h3>
+              Pourquoi faire de la recherche en I.A. dans les jeux ?
+            </h3>
+            <br />
+            <ul>
+              <li>C'est amusant !</li>
+              <li>
+                De nombreux avantages par rapport à d'autres applications
+                (robotique, …)
+              </li>
+              <li>
+                <span class="text-danger">
+                  Jeux = simplification du monde
+                </span>
+              </li>
+            </ul>
+          </section>
+          <section>
+            <h4>I.A. et jeux</h4>
+            <h3>Google DeepMind et l'I.A. des jeux</h3>
+            <figure>
+              <video src="video/atari.mp4" height="400" controls></video>
+              <figcaption>Apprentissage de jeux Atari</figcaption>
+            </figure>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h2>AlphaGo</h2>
+            <br />
+            Hugo MOUGARD
+            <br /><br />
+            <small>
+              Doctorant au LINA
+              <br />
+              Université de Nantes
+            </small>
+            <br /><br />
+            <img src="img/lina.png" class="no-box" height="100" />
+            <span style="display: inline-block; width: 40px;"></span>
+            <img src="img/univ.png" class="no-box" height="120" />
+            <br />
+            <br />
+          </section>
+          <section>
+            <h4>AlphaGo</h4>
+            <h3>Demis Hassabis présente AlphaGo</h3>
+            <br />
+            <video src="video/alphago.mp4" height="400" controls>
+              <track
+                src="video/alphago-fr.vtt"
+                kind="subtitles"
+                srclang="fr"
+                label="Sous-titres Français"
+                default
+              />
+            </video>
+          </section>
+          <section>
+            <h2>Sommaire</h2>
+            <ul style="list-style: none;">
+              <li class="fragment highlight-red">
+                Fonctionnement d'une I.A. de jeu
+              </li>
+              <li>Introduction d'AlphaGo</li>
+              <li>Monte Carlo Tree Search</li>
+              <li>Réseaux de neurones à convolutions</li>
+              <li>Fonctionnement d'AlphaGo</li>
+              <li>Parties contre Lee Sedol : coups remarquables</li>
+            </ul>
+          </section>
+          <section>
+            <h4>AlphaGo > Fonctionnement d'une I.A. de jeu</h4>
+            <h3>Modèle manipulé</h3>
+            <br />
+            <figure>
+              <img src="img/game-tree.png" height="400" class="no-box" />
+              <figcaption>Arbre de décision</figcaption>
+            </figure>
+          </section>
+          <section>
+            <h4>AlphaGo > Fonctionnement d'une I.A. de jeu</h4>
+            <h3>Arbre complet : utilisation</h3>
+            <br />
+            <figure>
+              <img src="img/evaluated-tree.png" height="400" class="no-box" />
+              <figcaption>
+                Idée : considérer tous les coups et maximiser notre minimum de
+                points
+              </figcaption>
+            </figure>
+          </section>
+          <section>
+            <h4>AlphaGo > Fonctionnement d'une I.A. de jeu</h4>
+            <h3>Algorithme min-max</h3>
+            <br />
+            <figure>
+              <img src="img/min-max.png" height="400" class="no-box" />
+              <figcaption>
+                Même idée que pour l'arbre complet, avec évaluation à une
+                profondeur donnée
+              </figcaption>
+            </figure>
+          </section>
+          <section>
+            <h4>AlphaGo > Fonctionnement d'une I.A. de jeu</h4>
+            <h3>I.A. de Go : Problèmes</h3>
+            <ul>
+              <li>
+                Arbre trop grand (~$10^{360}$ nœuds) → arbre complet
+                inutilisable
+              </li>
+              <li>
+                Pas d'heuristiques pour évaluer la position → Min-Max impossible
+              </li>
+            </ul>
+          </section>
+          <section>
+            <h2>Sommaire</h2>
+            <ul style="list-style: none;">
+              <li>Fonctionnement d'une I.A. de jeu</li>
+              <li class="fragment highlight-red">
+                Introduction d'AlphaGo
+              </li>
+              <li>Monte Carlo Tree Search</li>
+              <li>Réseaux de neurones à convolutions</li>
+              <li>Fonctionnement d'AlphaGo</li>
+              <li>Parties contre Lee Sedol : coups remarquables</li>
+            </ul>
+          </section>
+          <section>
+            <h4>AlphaGo > Introduction d'AlphaGo</h4>
+            <h3>Points clefs</h3>
+            <br />
+            <ul>
+              <li>
+                Solution au problème de taille de l'arbre de décision
+                <br />
+                → <strong>Monte Carlo Tree Search</strong><br /><br />
+              </li>
+
+              <li>
+                Conception d'une fonction d'évaluation
+                <br />
+                → <strong>Réseaux de neurones à convolutions</strong>
+              </li>
+            </ul>
+          </section>
+          <section>
+            <h2>Sommaire</h2>
+            <ul style="list-style: none;">
+              <li>Fonctionnement d'une I.A. de jeu</li>
+              <li>Introduction d'AlphaGo</li>
+              <li class="fragment highlight-red">
+                Monte Carlo Tree Search
+              </li>
+              <li>Réseaux de neurones à convolutions</li>
+              <li>AlphaGo</li>
+              <li>Parties contre Lee Sedol : coups remarquables</li>
+            </ul>
+          </section>
+          <section>
+            <h4>AlphaGo > Monte Carlo Tree Search</h4>
+            <h3>Introduction</h3>
+            <figure>
+              <video src="video/mcts.mp4" height="400" controls></video>
+              <figcaption>Par Rémi COULOM et Olivier TEYTAUD</figcaption>
+            </figure>
+          </section>
+          <section>
+            <h4>AlphaGo > Monte Carlo Tree Search</h4>
+            <h3>Résultats historiques dès 2009</h3>
+            <figure>
+              <img src="img/mogo.png" height="400" />
+              <figcaption>
+                <p>
+                  Mogo remporte une partie (sur trois) en 9x9 contre le champion
+                  Européen de l'époque Catalin Taranu.
+                </p>
+              </figcaption>
+            </figure>
+          </section>
+          <section>
+            <h4>AlphaGo > Monte Carlo Tree Search</h4>
+            <h3>Idées fondamentales</h3>
+            <p>Deux points importants :</p>
+            <ol>
+              <li>Utiliser des simulations aléatoires comme évaluation</li>
+              <li>Biaiser la recherche vers les coups gagnants</li>
+            </ol>
+          </section>
+          <section>
+            <h4>AlphaGo > Monte Carlo Tree Search</h4>
+            <h3>Simulations aléatoires</h3>
+            <p>Fonctionnement :</p>
+            <ul>
+              <li>Jouer des coups aléatoires jusqu'à la fin de la partie</li>
+              <li>Compter le score</li>
+              <li>Recommencer 10 000, 100 000 fois, voire plus</li>
+            </ul>
+          </section>
+          <section>
+            <h4>AlphaGo > Monte Carlo Tree Search</h4>
+            <h3>Biais de la recherche</h3>
+            <p>Cadre théorique des « bandits manchots » :</p>
+            <figure>
+              <img src="img/slot-machines.jpg" height="300" />
+              <figcaption>
+                <p>
+                  L'exploration des bons coups et des gains des machines à sous
+                  a des buts analogues.
+                </p>
+              </figcaption>
+            </figure>
+          </section>
+          <section>
+            <h4>AlphaGo > Monte Carlo Tree Search</h4>
+            <h3>Biais de la recherche</h3>
+            <p>Analogie</p>
+            <small>
+              <table class="table">
+                <theader>
+                  <tr>
+                    <th></th>
+                    <th>Monte Carlo Tree Search</th>
+                    <th>Bandits Manchots</th>
+                  </tr>
+                </theader>
+
+                <tbody>
+                  <tr>
+                    <td><strong>But</strong></td>
+                    <td>
+                      Passer le plus de temps de calcul possible à explorer des
+                      bons coups
+                    </td>
+                    <td>Gagner le plus d'argent possible avec l'argent misé</td>
+                  </tr>
+                  <tr class="info">
+                    <td><strong>Exploitation</strong></td>
+                    <td>Continuer à explorer un bon coup</td>
+                    <td>Continuer à miser sur une bonne machine</td>
+                  </tr>
+                  <tr class="success">
+                    <td><strong>Exploration</strong></td>
+                    <td>Trouver des coups encore meilleurs</td>
+                    <td>Trouver une machine qui rapporte plus</td>
+                  </tr>
+                </tbody>
+              </table>
+            </small>
+            <p>
+              L'<span class="text-info">exploitation</span> et l'<span
+                class="text-success"
+                >exploration</span
+              >
+              sont des nécessités contradictoires.
+            </p>
+          </section>
+          <section>
+            <h4>AlphaGo > Monte Carlo Tree Search</h4>
+            <h3>Algorithme</h3>
+            <img src="img/mcts.png" />
+          </section>
+          <section>
+            <h4>AlphaGo > Monte Carlo Tree Search</h4>
+            <h3>Résultat</h3>
+            <figure>
+              <img src="img/min-max.png" height="300" class="no-box" />
+              <figcaption>
+                <p>
+                  Avec un biais correct et beaucoup de simulations, Monte Carlo
+                  Tree Search converge vers l'arbre Min-Max.
+                </p>
+              </figcaption>
+            </figure>
+          </section>
+          <section>
+            <h4>AlphaGo > Monte Carlo Tree Search</h4>
+            <h3>Utilisation en Computer Go</h3>
+            <p>Tous les bots majeurs utilisent MCTS. Y compris AlphaGo !</p>
+          </section>
+          <section>
+            <h2>Sommaire</h2>
+            <ul style="list-style: none;">
+              <li>Fonctionnement d'une I.A. de jeu</li>
+              <li>Introduction d'AlphaGo</li>
+              <li>Monte Carlo Tree Search</li>
+              <li class="fragment highlight-red">
+                Réseaux de neurones à convolutions
+              </li>
+              <li>Fonctionnement d'AlphaGo</li>
+              <li>Parties contre Lee Sedol : coups remarquables</li>
+            </ul>
+          </section>
+          <section>
+            <h4>AlphaGo > Réseaux de neurones à convolutions</h4>
+            <h2>Ce dont ils sont capables</h2>
+            <p>
+              Excellents en reconnaissance de forme, capables de reconnaître des
+              objets dans des images :
+            </p>
+            <img src="img/computer-vision.png" height="300" />
+          </section>
+          <section>
+            <h4>AlphaGo > Réseaux de neurones à convolutions</h4>
+            <h2>Relation au go</h2>
+            <p>Les pierres forment des motifs, comme les pixels !</p>
+            <img src="img/goban.jpg" height="400" />
+          </section>
+          <section>
+            <h4>AlphaGo > Réseaux de neurones à convolutions</h4>
+            <h2>Introduction</h2>
+            <p>
+              Approximateurs de fonctions très complexes (reconnaissance
+              d'objets). Fonctions « intuitives » en particuliers.
+            </p>
+          </section>
+          <section>
+            <h4>AlphaGo > Réseaux de neurones à convolutions</h4>
+            <h2>Brique de base : neurone artificiel</h2>
+            <br />
+            <small>
+              <table class="table">
+                <theader>
+                  <tr>
+                    <th>Biologique</th>
+                    <th>Artificiel</th>
+                  </tr>
+                </theader>
+
+                <tbody>
+                  <tr>
+                    <td>
+                      <img
+                        class="no-box"
+                        src="img/biological-neuron.png"
+                        height="200"
+                      />
+                    </td>
+                    <td>
+                      <img
+                        class="no-box"
+                        src="img/artificial-neuron.png"
+                        height="200"
+                      />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </small>
+            <p>
+              Neurone artificiel : transforme ses entrées en une activation (par
+              ex. nombre entre 0 et 1)
+            </p>
+          </section>
+          <section>
+            <h4>AlphaGo > Réseaux de neurones à convolutions</h4>
+            <h2>Réseaux de neurones</h2>
+            <img src="img/neural-network.png" height="400" class="no-box" />
+          </section>
+          <section>
+            <h4>AlphaGo > Réseaux de neurones à convolutions</h4>
+            <h2>Problème 1/2</h2>
+            <p>
+              Dans un réseau classique, chaque neurone reçoit toute
+              l'information disponible :
+            </p>
+            <img src="img/park.jpg" height="400" />
+          </section>
+          <section>
+            <h4>AlphaGo > Réseaux de neurones à convolutions</h4>
+            <h2>Problème 2/2</h2>
+            <p>
+              Pourtant, il est plus simple de construire la compréhension depuis
+              des petites zones :
+            </p>
+            <img src="img/park-annotated.jpg" height="400" />
+          </section>
+          <section>
+            <h4>AlphaGo > Réseaux de neurones à convolutions</h4>
+            <h2>Solution 1/2</h2>
+            <figure>
+              <p>Connecter les neurones à une zone limitée de l'entrée :</p>
+              <img src="img/kernel.jpg" height="400" />
+            </figure>
+          </section>
+          <section>
+            <h4>AlphaGo > Réseaux de neurones à convolutions</h4>
+            <h2>Solution 2/2</h2>
+            <figure>
+              <figcaption>
+                <p>
+                  Principe de compréhension hiérarchique par superposition de
+                  couches de neurones :
+                </p>
+              </figcaption>
+              <img src="img/cnn.jpg" height="400" />
+            </figure>
+          </section>
+          <section>
+            <h4>AlphaGo > Réseaux de neurones à convolutions</h4>
+            <h2>Filtres appris</h2>
+            <img src="img/hierarchical-features.png" height="400" />
+          </section>
+          <section>
+            <h4>AlphaGo > Réseaux de neurones à convolutions</h4>
+            <h2>Application</h2>
+            <img src="img/imagenet.png" height="400" />
+          </section>
+          <section>
+            <h2>Sommaire</h2>
+            <ul style="list-style: none;">
+              <li>Fonctionnement d'une I.A. de jeu</li>
+              <li>Introduction d'AlphaGo</li>
+              <li>Monte Carlo Tree Search</li>
+              <li>Réseaux de neurones à convolutions</li>
+              <li class="fragment highlight-red">
+                Fonctionnement d'AlphaGo
+              </li>
+              <li>Parties contre Lee Sedol : coups remarquables</li>
+            </ul>
+          </section>
+          <section>
+            <h4>AlphaGo > Fonctionnement d'AlphaGo</h4>
+            <h3>Coeur de l'approche</h3>
+            <p>
+              Améliorer Monte Carlo Tree Search en y intégrant deux réseaux de
+              neurones à convolutions :
+            </p>
+            <img src="img/networks.jpg" height="400" />
+          </section>
+          <section>
+            <h4>AlphaGo > Fonctionnement d'AlphaGo</h4>
+            <h3>Policy Network</h3>
+            <p>Prédire le prochain coup étant donnée une position :</p>
+            <img src="img/policy-network.png" height="400" />
+          </section>
+          <section>
+            <h4>AlphaGo > Fonctionnement d'AlphaGo</h4>
+            <h3>Value Network</h3>
+            <p>Prédire le vainqueur étant donnée une position :</p>
+            <img src="img/value-network.png" height="400" />
+          </section>
+          <section>
+            <h4>AlphaGo > Fonctionnement d'AlphaGo</h4>
+            <h3>Intégration dans MCTS</h3>
+            <img src="img/mcts-alphago.png" height="400" />
+          </section>
+          <section>
+            <h4>AlphaGo > Fonctionnement d'AlphaGo</h4>
+            <h3>Exemple de MCTS</h3>
+            <img src="img/mcts-example.png" height="500" />
+          </section>
+          <section>
+            <h4>AlphaGo > Fonctionnement d'AlphaGo</h4>
+            <h3>Apprentissage supervisé</h3>
+            <img src="img/supervised-vs-unsupervised.png" />
+          </section>
+          <section>
+            <h4>AlphaGo > Fonctionnement d'AlphaGo</h4>
+            <h3>Apprentissage supervisé</h3>
+            <p>Apprentissage depuis :</p>
+            <ul>
+              <li>29M de positions tirées de 160k parties sur KGS</li>
+              <li>8M de positions tirées de parties sur Tygem</li>
+            </ul>
+          </section>
+          <section>
+            <h4>AlphaGo > Fonctionnement d'AlphaGo</h4>
+            <h3>Apprentissage par renforcement</h3>
+            <br />
+            <img src="img/rl.jpg" />
+          </section>
+          <section>
+            <h4>AlphaGo > Fonctionnement d'AlphaGo</h4>
+            <h3>Apprentissage par renforcement</h3>
+            <br />
+            <ul>
+              <li>
+                Faire jouer le policy network
+                <strong>contre lui même</strong> et utiliser le résultat de la
+                partie pour biaiser les coups
+              </li>
+              <li>
+                Créer de la même manière 30M de positions pour apprendre le
+                value network
+              </li>
+            </ul>
+          </section>
+          <section>
+            <h4>AlphaGo > Fonctionnement d'AlphaGo</h4>
+            <h3>Matériel</h3>
+            <p>
+              Énormes besoins matériels pour simplement faire tourner AlphaGo :
+            </p>
+            <ul>
+              <li>1900+ CPUs</li>
+              <li>280+ GPUs (5000€ pièce)</li>
+              <li>40+ search threads</li>
+            </ul>
+            <p>Mais il en faut plus encore pour apprendre les deux réseaux !</p>
+          </section>
+          <section>
+            <h4>AlphaGo > Fonctionnement d'AlphaGo</h4>
+            <h3>Performance</h3>
+            <ul>
+              <li>La version 13 a battu Fan Hui 5-0</li>
+              <li>La version 18 a battu Lee Sedol 4-1</li>
+            </ul>
+            <img src="img/new-rankings.jpg" height="400" />
+          </section>
+          <section>
+            <h4>AlphaGo > Fonctionnement d'AlphaGo</h4>
+            <h3>Performance</h3>
+            <p>
+              La version 18 a 1200 d'Elo en plus que la version 13
+              <br />
+              → v18 a ~99,99% de chances de gagner contre v13 !
+            </p>
+          </section>
+          <section>
+            <h2>Sommaire</h2>
+            <ul style="list-style: none;">
+              <li>Fonctionnement d'une I.A. de jeu</li>
+              <li>Introduction d'AlphaGo</li>
+              <li>Monte Carlo Tree Search</li>
+              <li>Réseaux de neurones à convolutions</li>
+              <li>Fonctionnement d'AlphaGo</li>
+              <li class="fragment highlight-red">
+                Parties contre Lee Sedol : coups remarquables
+              </li>
+            </ul>
+          </section>
+          <section>
+            <h2>Discussion de l'Impact d'AlphaGo</h2>
+          </section>
+        </section>
+        <section data-background="black">
+          <h2>
+            <span style="color: white;">Merci</span>
+            <span style="color: gold;">beaucoup</span>
+            <span style="color: pink;">pour</span>
+            <span style="color: red;">votre</span>
+            <span style="color: yellow;">attention</span>
+            <span style="color: green;">!</span>
+          </h2>
+        </section>
+        <section data-state="cobalt">
+          <h1>Avez-vous des questions ?</h1>
+        </section>
+      </div>
+    </div>
+
+    <script src="../reveal.js/js/reveal.js"></script>
+
+    <script>
+      Reveal.initialize({
+        controls: false,
+        progress: true,
+        slideNumber: true,
+        history: true,
+        center: true,
+        transition: "slide"
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,13 @@
+requests
+jupyter
+tqdm
+coloredlogs
+matplotlib
+pymysql
+joblib
+scipy
+pandas
+wordcloud
+ortools
+fastdtw
+pillow-simd
