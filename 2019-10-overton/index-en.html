@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <title>Overton</title>
+
+    <link rel="stylesheet" href="../reveal.js/css/reset.css" />
+    <link rel="stylesheet" href="../reveal.js/css/reveal.css" />
+    <link rel="stylesheet" href="../reveal.js/css/theme/simple.css" />
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="../reveal.js/lib/css/monokai.css" />
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.type = "text/css";
+      link.href = window.location.search.match(/print-pdf/gi)
+        ? "../reveal.js/css/print/pdf.css"
+        : "../reveal.js/css/print/paper.css";
+      document.getElementsByTagName("head")[0].appendChild(link);
+    </script>
+    <base target="_blank" />
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <h1>Overton</h1>
+          <h2>Apple-flavored ML</h2>
+          <h4>2019/10/07 Nantes Machine Learning Meetup</h4>
+        </section>
+
+        <section>
+          <section>
+            <h1>Overview</h1>
+          </section>
+
+          <section>
+            <h4>Overview</h4>
+            <h2>What / When / Where</h2>
+            <dl>
+              <dt>Publishing date</dt>
+              <dd>Early September</dd>
+              <dt>Conference</dt>
+              <dd>NeurIPS</dd>
+              <dt>Goal</dt>
+              <dd>ML software lifecycle management</dd>
+              <dt>Maturity</dt>
+              <dd>Production</dd>
+            </dl>
+          </section>
+
+          <section>
+            <h4>Overview</h4>
+            <h2>Challenges to overcome</h2>
+            <ul>
+              <li>Precise monitoring</li>
+              <li>Complex pipelines</li>
+              <li>Efficient feedback loop</li>
+            </ul>
+          </section>
+
+          <section>
+            <h4>Overview</h4>
+            <h2>Architectural choices</h2>
+            <ul>
+              <li>Code-less deep learning</li>
+              <li>Multi-task learning</li>
+              <li>Weak supervision</li>
+            </ul>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h1>Code-less deep learning</h1>
+          </section>
+
+          <section>
+            <h4>Code-less deep learning</h4>
+            <h2>Principles</h2>
+            <ul>
+              <li>Models & training code = experts</li>
+              <li>“black box” by engineers</li>
+            </ul>
+          </section>
+
+          <section>
+            <h4>Code-less deep learning</h4>
+            <h2>Modularity</h2>
+            <img src="img/codeless-dl.png" class="stretch" />
+          </section>
+
+          <section>
+            <h4>Code-less deep learning</h4>
+            <h2>Configuration</h2>
+            <img src="img/payloads-tasks-model.png" class="stretch" />
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h1>Fine grained ML & multi-tasks</h1>
+          </section>
+
+          <section>
+            <h4>Fine grained ML & multi-tasks</h4>
+            <h2>Problems</h2>
+            <ul>
+              <li>Lots of subtasks (implicit & explicit)</li>
+              <li>Need to evaluate & monitor them</li>
+              <li>Need to improve on them</li>
+            </ul>
+          </section>
+
+          <section>
+            <h4>Fine grained ML & multi-tasks</h4>
+            <h2>Approach</h2>
+            <p>Slice-based learning</p>
+            <ul>
+              <li>Definition of data subsets</li>
+              <li>Augmentation of model capacity</li>
+              <li>Dedicated metrics</li>
+            </ul>
+          </section>
+
+          <section>
+            <h4>Fine grained ML & multi-tasks</h4>
+            <h2>Slice-based learning</h2>
+            <img src="img/slice-based-learning-overview.png" />
+          </section>
+
+          <section>
+            <h4>Fine grained ML & multi-tasks</h4>
+            <h2>Definition of critical data subsets</h2>
+            With “slice functions”:
+            <pre><code data-trim
+                       data-noescape>
+                def sf_bike(x):
+                    return "bike" in object_detector(x)
+
+                def sf_night(x):
+                    return avg(X.pixels.intensity) < 0.3
+            </code></pre>
+          </section>
+
+          <section>
+            <h4>Fine grained ML & multi-tasks</h4>
+            <h2>Slice experts</h2>
+            <p>
+              For each slice, an expert:
+            </p>
+            <ul>
+              <li>should add capacity to the model</li>
+              <li>has to know when to trigger</li>
+              <li>has to have dedicated metrics</li>
+            </ul>
+          </section>
+
+          <section>
+            <h4>Fine grained ML & multi-tasks</h4>
+            <h2>Hard parts</h2>
+            <ul>
+              <li>Noise : slices are defined with heuristics</li>
+              <li>
+                Scale 1 : when the number of slices goes up, does the model
+                still run fast enough?
+              </li>
+              <li>
+                Scale 2 : when the number of slices goes up, is the model still
+                good enough?
+              </li>
+            </ul>
+          </section>
+
+          <section>
+            <h4>Fine grained ML & multi-tasks</h4>
+            <h2>Proposed solution</h2>
+            <img src="img/slice-based-with-attention.png" />
+          </section>
+
+          <section>
+            <h4>Resources</h4>
+            <ul>
+              <li>
+                <a href="https://www.snorkel.org/blog/slicing">
+                  Snorkel blog “Slice-based Learning”
+                </a>
+              </li>
+              <li>
+                <a href="https://arxiv.org/abs/1909.06349">
+                  NeurIPS paper “Slice-based Learning: A Programming Model for
+                  Residual Learning in Critical Data Slices”
+                </a>
+              </li>
+            </ul>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h1>Weak supervision</h1>
+          </section>
+
+          <section>
+            <h4>Weak supervision</h4>
+            <h2>Problem statement</h2>
+            <p>
+              We need data, but:
+            </p>
+            <ul>
+              <li>It's expensive, not available, <i>yadda yadda</i></li>
+              <li>Especially for interesting corner cases</li>
+              <li>It's noisy</li>
+            </ul>
+          </section>
+
+          <section>
+            <h4>Weak supervision</h4>
+            <h2>Solution</h2>
+            <p>Use heuristics</p>
+            <pre><code data-trim
+                       data-noescape>
+                @labeling_function()
+                def lf_regex_check_out(x):
+                    """Spam comments say 'check out my video', 'check it out', etc."""
+                    return SPAM if re.search(r"check.*out", x.text, flags=re.I) else ABSTAIN
+            </code></pre>
+          </section>
+
+          <section>
+            <h4>Weak supervision</h4>
+            <h2>Solution</h2>
+            <p>Then correct the loss accounting for their correlation</p>
+            <img src="img/noisy-lfs.png" class="stretch" />
+          </section>
+
+          <section>
+            <h4>Weak supervision</h4>
+            <h2>Implementation</h2>
+            <p>
+              Overton uses a modified version of the “Label Model” from Snorkel.
+            </p>
+          </section>
+
+          <section>
+            <h4>Resources</h4>
+            <ul>
+              <li>
+                <a href="https://www.snorkel.org/blog/hello-world-v-0-9">
+                  Snorkel blog « Introducing the New Snorkel »
+                </a>
+              </li>
+              <li>
+                <a href="https://arxiv.org/abs/1909.06349">
+                  ICML paper “Learning Dependency Structures for Weak
+                  Supervision Models”
+                </a>
+              </li>
+            </ul>
+          </section>
+        </section>
+
+        <section>
+          <h1>Conclusion</h1>
+          <ul>
+            <li>Modularity (alike AllenNLP, tensor2tensor)</li>
+            <li>Dedicated metrics & multi-tasks</li>
+            <li>Improvements on critical data subsets</li>
+            <li>Artifical data with theoretical corrections</li>
+          </ul>
+        </section>
+
+        <section>
+          <h1>Questions / Discussion</h1>
+        </section>
+      </div>
+    </div>
+
+    <script src="../reveal.js/js/reveal.js"></script>
+
+    <script>
+      Reveal.initialize({
+        dependencies: [
+          { src: "../reveal.js/plugin/highlight/highlight.js", async: true }
+        ]
+      });
+    </script>
+  </body>
+</html>
