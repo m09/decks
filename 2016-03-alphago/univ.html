@@ -1016,11 +1016,9 @@
     <script>
       Reveal.initialize({
         controls: false,
-        progress: true,
         slideNumber: true,
         history: true,
-        center: true,
-        transition: "slide"
+        dependencies: [{ src: "../reveal.js/plugin/math/math.js", async: true }]
       });
     </script>
   </body>
