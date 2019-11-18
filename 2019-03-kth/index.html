@@ -14,9 +14,6 @@
     <!-- We don't link a main theme here, it's handled by javascript -->
     <link rel="stylesheet" href="css/custom.css" />
 
-    <!-- Theme used for syntax highlighting of code -->
-    <link rel="stylesheet" href="../reveal.js/lib/css/zenburn.css" />
-
     <!-- Printing and PDF exports -->
     <script>
       var link = document.createElement("link");
@@ -478,15 +475,9 @@
     <script>
       Reveal.initialize({
         controls: false,
-        controlsTutorial: false,
         history: true,
         slideNumber: "c/t",
-        dependencies: [
-          { src: "../reveal.js/plugin/markdown/marked.js" },
-          { src: "../reveal.js/plugin/markdown/markdown.js" },
-          { src: "../reveal.js/plugin/highlight/highlight.js", async: true },
-          { src: "../reveal.js/plugin/math/math.js", async: true }
-        ]
+        dependencies: [{ src: "../reveal.js/plugin/math/math.js", async: true }]
       });
 
       class Styles {
