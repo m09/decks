@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+  <title>AlphaGo: Solving the Game of Go with Machine Learning</title>
+
+  <link rel="stylesheet" href="../reveal.js/css/reset.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
+  <link rel="stylesheet" href="../reveal.js/css/reveal.css" />
+  <link rel="stylesheet" href="../reveal.js/css/theme/sky.css" />
+  <link rel="stylesheet" href="css/custom.css" />
+
+  <!-- Printing and PDF exports -->
+  <script>
+    var link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.type = "text/css";
+    link.href = window.location.search.match(/print-pdf/gi)
+      ? "../reveal.js/css/print/pdf.css"
+      : "../reveal.js/css/print/paper.css";
+    document.getElementsByTagName("head")[0].appendChild(link);
+  </script>
+  <base target="_blank" />
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section>
+        <h3>
+          <strong>AlphaGo</strong>&nbsp;: Résoudre le <strong>jeu de Go</strong> avec
+          <strong>l'apprentissage automatique</strong>
+        </h3>
+        <div class="text-muted">
+          Pour le
+          <strong class="text-primary">
+            Lycée Jules Verne
+          </strong>
+          <br />
+          Par
+          <strong class="text-primary">
+            Hugo Mougard
+          </strong>
+          <br />
+          Le
+          <strong class="text-primary">
+            26 janvier 2021
+          </strong>
+        </div>
+      </section>
+      <section>
+        <p>
+          DeepMind a publié un papier dans Nature le 27 janvier 2016 pour présenter <strong>AlphaGo</strong>.
+        </p>
+        <p>
+          AlphaGo est le premier programme à battre un <strong>pro humain</strong> sans coup d'avance.
+        </p>
+      </section>
+      <section>
+        <section>
+          <h1>Survol</h1>
+          <ul style="list-style: none;">
+            <li class="fragment highlight-red">Jeu de Go</li>
+            <li>Programmes précédents</li>
+            <li>Réseaux de neurones à convolutions</li>
+            <li>AlphaGo</li>
+            <li>Conclusion</li>
+          </ul>
+        </section>
+        <section>
+          <h4>Jeu de Go</h4>
+          <h3>Des règles simples</h3>
+          <p>Il y a deux règles importantes&nbsp;:</p>
+          <ul>
+            <li>Des pierres entourées par l'adversaire sont capturées</li>
+            <li>Les pierres et les intersections contrôlées valent des points</li>
+          </ul>
+        </section>
+        <section>
+          <h4>Jeu de Go</h4>
+          <h3>Capture</h3>
+          <img src="img/capture.png" height="400" />
+        </section>
+        <section>
+          <h4>Jeu de Go</h4>
+          <h3>Territoire</h3>
+          <img src="img/territory.png" height="400" />
+        </section>
+        <section>
+          <h4>Jeu de Go</h4>
+          <h3>Un jeu complexe</h3>
+          <p>
+            Malgré ses règles simples, le jeu de Go est <strong>très</strong> dur à maîtriser&nbsp;:
+          </p>
+          <ul>
+            <li>Nombre moyen de coups possibles par tour&nbsp;: 200</li>
+            <li>Nombre moyen de coups dans une partie&nbsp;: 300</li>
+            <li>
+              Nombre de positions légales&nbsp;: Nombre d'atomes dans l'univers observable <strong>au carré</strong>
+            </li>
+          </ul>
+        </section>
+      </section>
+      <section>
+        <section data-background="yellow">
+          <h1>Survol</h1>
+          <ul style="list-style: none;">
+            <li>Jeu de Go</li>
+            <li class="fragment highlight-red">Programmes de Go précédents</li>
+            <li>Réseaux de neurones à convolutions</li>
+            <li>AlphaGo</li>
+            <li>Conclusion</li>
+          </ul>
+        </section>
+        <section>
+          <h4>Programmes de Go précédents</h4>
+          <h3>Prérequis&nbsp;: arbre de décision d'un jeu</h3>
+          <img src="img/game-tree.png" height="400" />
+        </section>
+        <section>
+          <h4>Programmes de Go précédents</h4>
+          <h3>Objectif d'un programme de jeu</h3>
+          <p>Explorer l'arbre de décision du jeu efficacement pour trouver le meilleur coup.</p>
+        </section>
+        <section>
+          <h4>Programmes de Go précédents</h4>
+          <h3>Min-max</h3>
+          <img src="img/minmax.jpg" height="400" />
+        </section>
+        <section>
+          <h4>Programmes de Go précédents</h4>
+          <h3>Min-max applicable au Go?</h3>
+          <ul>
+            <li>Nombre moyen de coups possibles par tour&nbsp;: 200</li>
+            <li>Nombre moyen de coups dans une partie&nbsp;: 300</li>
+          </ul>
+          <br />
+          <br />
+          <p>→ 200<sup>300</sup> coups à explorer</p>
+        </section>
+        <section>
+          <h4>Programmes de Go précédents</h4>
+          <h3>Recherche arborescente Monte-Carlo</h3>
+          <p>Approximation de min-max.</p>
+          <img src="img/mcts.png" />
+        </section>
+      </section>
+      <section>
+        <section data-background="pink">
+          <h1 style="color: white;">Survol</h1>
+          <ul style="list-style: none;">
+            <li>Jeu de Go</li>
+            <li>Programmes de Go précédents</li>
+            <li class="fragment highlight-red">Réseaux de neurones à convolutions</li>
+            <li>AlphaGo</li>
+            <li>Conclusion</li>
+          </ul>
+        </section>
+        <section>
+          <h4>Réseaux de neurones à convolutions</h4>
+          <h3>Introduction</h3>
+          <p>Approximateurs de fonctions complexes, qu'on considère «&nbsp;intuitives&nbsp;» en tant qu'humains.</p>
+        </section>
+        <section>
+          <h4>Réseaux de neurones à convolutions</h4>
+          <h3>Application</h3>
+          <p>Principalement la compréhension d'images et de textes.</p>
+          <img src="img/computer-vision.png" height="300" />
+        </section>
+        <section>
+          <h4>Réseaux de neurones à convolutions</h4>
+          <h3>Architecture</h3>
+          <p>Plusieurs couches de filtres successives.</p>
+          <img src="img/cnn.png" />
+        </section>
+        <section>
+          <h4>Réseaux de neurones à convolutions</h4>
+          <h3>Filtres</h3>
+          <img src="img/kernel.jpg" height="300" />
+        </section>
+        <section>
+          <h4>Réseaux de neurones à convolutions</h4>
+          <h3>Filtres appris</h3>
+          <img src="img/filters.png" height="300" />
+        </section>
+        <section>
+          <h4>Réseaux de neurones à convolutions</h4>
+          <h3>Application</h3>
+          <img src="img/imagenet.png" height="400" />
+        </section>
+        <section>
+          <h4>Réseaux de neurones à convolutions</h4>
+          <h3>Relation au Go</h3>
+          <p>Au lieu de travailler sur des pixels, les filtres travaillent sur des intersections.</p>
+          <img src="img/goban.jpg" height="400" />
+        </section>
+      </section>
+      <section>
+        <section data-background="green" style="color:white;">
+          <h1>Survol</h1>
+          <ul style="list-style: none;">
+            <li>Jeu de Go</li>
+            <li>Programmes de Go précédents</li>
+            <li>Réseaux de neurones à convolutions</li>
+            <li class="fragment highlight-red">AlphaGo</li>
+            <li>Conclusion</li>
+          </ul>
+        </section>
+        <section>
+          <h4>AlphaGo</h4>
+          <h3>Introduction par DeepMind</h3>
+          <video src="video/alphago.mp4" controls></video>
+        </section>
+        <section>
+          <h4>AlphaGo</h4>
+          <h3>Cœur de l'approche</h3>
+          <p>Augmenter la recherche arborescente Monte-Carlo aved deux réseaux de neurones à convolutions</p>
+          <img src="img/networks.jpg" height="400" />
+        </section>
+        <section>
+          <h4>AlphaGo</h4>
+          <h3>Réseau de coups</h3>
+          <p>Predit le prochain coup étant donné la position</p>
+          <img src="img/policy-network.png" height="400" />
+        </section>
+        <section>
+          <h4>AlphaGo</h4>
+          <h3>Réseau de score</h3>
+          <p>Predit le vainqueur étant donné la position.</p>
+          <img src="img/value-network.png" height="400" />
+        </section>
+        <section>
+          <h4>AlphaGo</h4>
+          <h3>Intégration à MCTS</h3>
+          <img src="img/mcts-example.png" height="500" />
+        </section>
+        <section>
+          <h4>AlphaGo</h4>
+          <h3>Apprentissage supervisé</h3>
+          <ul>
+            <li>29M de positions tirées de 160k parties sur KGS</li>
+            <li>8M de positions tirées de parties sur Tygem</li>
+          </ul>
+        </section>
+        <section>
+          <h4>AlphaGo</h4>
+          <h3>Apprentissage par renforcement</h3>
+          <ul>
+            <li>Faire jouer le réseau de coups contre ses versions antérieurs pour obtenir des données</li>
+            <li>Améliorer les réseaux grâce aux données générées</li>
+            </li>
+          </ul>
+        </section>
+        <section>
+          <h4>AlphaGo</h4>
+          <h3>Hardware</h3>
+          <p>À l'échelle de Google&nbsp;:</p>
+          <ul>
+            <li>1202 CPUs</li>
+            <li>176 GPUs</li>
+            <li>40 cœurs CPU pour MCTS</li>
+          </ul>
+        </section>
+        <section>
+          <h4>AlphaGo</h4>
+          <h3>Performance 1/2</h3>
+          <p>A battu Fan Hui, champion européen, 5-0.</p>
+          <img src="img/rankings.png" height="400" />
+        </section>
+        <section>
+          <h4>AlphaGo</h4>
+          <h3>Performance 2/2</h3>
+          <p>A battu Lee Sedol, grand champion du Go moderne, 4-1.</p>
+          <img src="img/sedol.jpg" height="300" />
+          <p>Prix pour le vainqueur&nbsp;: <strong>1M$</strong>.</p>
+        </section>
+        <section>
+          <h4>AlphaGo</h4>
+          <h3>AlphaGo Zero</h3>
+          <p>19 octobre 2017&nbsp;: plus d'apprentissage supervisé. Tout en renforcement !</p>
+          <img src="img/alphago-zero.png" height="400" />
+        </section>
+        <section>
+          <h4>AlphaGo</h4>
+          <h3>Alpha Zero</h3>
+          <p>5 décembre 2017&nbsp;: plus général. S'applique aux échecs, au shogi, …</p>
+          <img src="img/alpha-zero.png" height="400" />
+        </section>
+        <section>
+          <h4>AlphaGo</h4>
+          <h3>Mu Zero</h3>
+          <p>19 novembre 2019&nbsp;: n'a pas accès aux règles. Les infère.</p>
+          <img src="img/mu-zero.png" height="400" />
+        </section>
+      </section>
+      <section>
+        <section data-background="blue">
+          <h1 style="color:white;">Survol</h1>
+          <ul style="list-style: none; color: #ccc;">
+            <li>Jeu de Go</li>
+            <li>Programmes de Go précédents</li>
+            <li>Réseaux de neurones à convolutions</li>
+            <li>AlphaGo</li>
+            <li class="fragment highlight-blue">Conclusion</li>
+          </ul>
+        </section>
+        <section>
+          <h3>Conclusion</h3>
+          <ul>
+            <li>Des algorithmes de plus en plus généraux…</li>
+            <li>… qui restent beaucoup plus gourmants en données qu'un humain</li>
+          </ul>
+
+        </section>
+      </section>
+      <section>
+        <section data-state="cobalt">
+          <h1>Questions</h1>
+        </section>
+      </section>
+    </div>
+  </div>
+
+  <script src="../reveal.js/js/reveal.js"></script>
+
+  <script>
+    Reveal.initialize({ history: true, progress: false });
+  </script>
+</body>
+
+</html>
